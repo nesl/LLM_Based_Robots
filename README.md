@@ -140,35 +140,6 @@ Prompt Engineering:
    1. Type “export ROS\_DOMAIN\_ID=<your\_domain\_id>” (in our case, 0)
 1. To open
 
-
-# <a name="_cxlzx778wfjd"></a>Additional Notes
-To make a shell script:
-
-1. OPTIONAL (MAKE DIRECTORY):
-   1. cd ~
-   1. mkdir <directory\_name>
-   1. cd <directory\_name>
-1. vim <function\_name>.sh
-1. Edit file
-   1. #!/bin/bash (makes the file a shell script)
-   1. Insert the ROS command
-   1. If there are function arguments, instead of typing x or y or something, type in “$<number of argument>”. For example, first parameter variable is “$1”
-   1. Exit file
-1. chmod +x <function\_name>.sh
-1. ./<function\_name>.sh for execution
-1. To run functions with parameters, 
-   1. Example: ./drive\_arc.sh 1.57 0.3 1 0.3 (put spaces between the arguments)
-
-“I” -- insert
-
-Esc + : + wq + enter -- exit
-
-To connect to Robot:
-
-- Perform Wifi connection steps with robot
-- In terminal:
-  - source /opt/ros/galactic/setup.bash
-  - source ~/.bashrc
 # <a name="_szlqy2n8cbw"></a>General Links:
 ### <a name="_58wk7hfvy6ky"></a>Nvidia Jetson:
 - [AGX Developer Manual](https://developer.download.nvidia.com/embedded/L4T/r32-3-1_Release_v1.0/jetson_agx_xavier_developer_kit_user_guide.pdf?t=eyJscyI6InJlZiIsImxzZCI6IlJFRi1pcm9ib3RlZHVjYXRpb24uZ2l0aHViLmlvLyJ9)
