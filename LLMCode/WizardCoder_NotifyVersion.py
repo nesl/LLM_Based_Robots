@@ -3,11 +3,13 @@ import time
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
 import pyinotify
+import paramiko
 
 # load tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained("WizardLM/WizardCoder-15B-V1.0")
+#model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0").to("cuda")
 model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", device_map='auto')
-#model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", device_map='sequential', max_memory={0: '40 GiB'}, revision='main', low_cpu_mem_usage = True, offload_folder='offload')
+#model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", device_map='sequential', max_memory={0: '49 GiB'}, revision='main', low_cpu_mem_usage = True, offload_folder='offload')
 print("Model Loaded")
 
 prompt_file_path = '/home/pragya/LLMCode/prompt.txt'
@@ -31,6 +33,26 @@ class EventHandler(pyinotify.ProcessEvent):
             cur_time = time.ctime(time.time())
             print(f"File updated: {file_path} at {cur_time}")
             generate_code(file_path)
+            
+            
+def write_to_comp():
+	hostname = '192.168.50.211'
+	username = 'nesl'
+	password = 'nesl'
+
+	local_path = '/home/pragya/LLMCode/LLM_generated_code.py'
+	remote_path = '/home/nesl/desktopTransferredCode.py'
+
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+	try:
+		ssh.connect(hostname, username=username, password=password)
+		scp = ssh.open_sftp()
+		scp.put(local_path, remote_path)
+		print("File transferred successfully")
+	finally:
+		ssh.close()
 
 def generate_code(prompt_file_path):        
     print("Running model.")
@@ -75,8 +97,9 @@ def generate_code(prompt_file_path):
     end_time = time.time()
     time_used = end_time - start_time
     print("Finish Generating Code:", time_used)
+    write_to_comp()
 
-    
+
 # Add the directory to the watcher
 # watch_mask = pyinotify.IN_MODIFY | pyinotify.IN_CLOSE_WRITE
 watch_mask = pyinotify.IN_CLOSE_WRITE
@@ -88,6 +111,7 @@ notifier = pyinotify.Notifier(watcher_manager, EventHandler())
 # run once
 generate_code(prompt_file_path)
 
+
 # Start monitoring for file changes
 try:
     print(f"Monitoring file: {prompt_file_path}")
@@ -96,3 +120,9 @@ except KeyboardInterrupt:
     # Exit gracefully when interrupted by Ctrl+C
     notifier.stop()
     print("Monitoring stopped")
+    
+
+
+    
+    
+
