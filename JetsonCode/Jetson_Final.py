@@ -8,9 +8,11 @@ hostname = '192.168.50.233'
 username = 'pragya'
 password = 'neslrocks!'
 
+#path variables to the files
 local_path = '/home/nesl/output.txt'
 remote_path = '/home/pragya/LLMCode/instruction.txt'
 
+#variables related to the microphone module
 RESPEAKER_RATE = 16000
 RESPEAKER_CHANNELS = 6 # change base on firmwares, 1_channel_firmware.bin as 1 or 6_channels_firmware.bin as 6
 RESPEAKER_WIDTH = 2
@@ -20,7 +22,7 @@ CHUNK = 1024
 RECORD_SECONDS = 10
 WAVE_OUTPUT_FILENAME = "output.wav"
 
-p = pyaudio.PyAudio()
+p = pyaudio.PyAudio() #PyAudio used for filtering
 
 device_channels = p.get_device_info_by_host_api_device_index(0, 1).get('maxInputChannels')
 

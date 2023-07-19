@@ -12,12 +12,13 @@ model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", de
 #model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", device_map='sequential', max_memory={0: '49 GiB'}, revision='main', low_cpu_mem_usage = True, offload_folder='offload')
 print("Model Loaded")
 
+#Path to the necessary files
 prompt_file_path = '/home/pragya/LLMCode/prompt.txt'
 code_file_path = '/home/pragya/LLMCode/LLM_generated_code.py'
 
+#the directory that the EventHandler should monitor for changes
 dir_to_watch = os.path.abspath('/home/pragya/LLMCode')
 watcher_manager = pyinotify.WatchManager()
-
 
 #----------------------------- DEFINE THE EVENT HANDLER ---------------
 class EventHandler(pyinotify.ProcessEvent):
