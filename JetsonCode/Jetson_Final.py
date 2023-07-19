@@ -22,61 +22,80 @@ CHUNK = 1024
 RECORD_SECONDS = 10
 WAVE_OUTPUT_FILENAME = "output.wav"
 
-p = pyaudio.PyAudio() #PyAudio used for filtering
-
-device_channels = p.get_device_info_by_host_api_device_index(0, 1).get('maxInputChannels')
-
-stream = p.open(
-            rate=RESPEAKER_RATE,
-            format=p.get_format_from_width(RESPEAKER_WIDTH),
-            channels=RESPEAKER_CHANNELS,
-            input=True,
-            input_device_index=RESPEAKER_INDEX,)
-
-print("* recording")
-
-frames = []
-
-for i in range(0, int(RESPEAKER_RATE / CHUNK * RECORD_SECONDS)):
-    data = stream.read(CHUNK)
-    frames.append(data)
-
-print("* done recording")
-
-stream.stop_stream()
-stream.close()
-p.terminate()
-
-wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-wf.setnchannels(RESPEAKER_CHANNELS)
-wf.setsampwidth(p.get_sample_size(p.get_format_from_width(RESPEAKER_WIDTH)))
-wf.setframerate(RESPEAKER_RATE)
-wf.writeframes(b''.join(frames))
-wf.close()
-
-
-#run whisper base model to transcribe audio file
+#load the Whisper Model
 model = whisper.load_model("base")
-result = model.transcribe("/home/nesl/output.wav")
-print(result["text"])
+
+def recordAudio():
+    '''
+    Uses the microphone module to record the user input and store it in string form into a variable.
+    '''
+    
+    p = pyaudio.PyAudio() #PyAudio used for filtering
+
+    device_channels = p.get_device_info_by_host_api_device_index(0, 1).get('maxInputChannels')
+
+    stream = p.open(
+                rate=RESPEAKER_RATE,
+                format=p.get_format_from_width(RESPEAKER_WIDTH),
+                channels=RESPEAKER_CHANNELS,
+                input=True,
+                input_device_index=RESPEAKER_INDEX,)
+
+    print("* recording")
+
+    frames = []
+
+    for i in range(0, int(RESPEAKER_RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
+        frames.append(data)
+
+    print("* done recording")
+
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+
+    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    wf.setnchannels(RESPEAKER_CHANNELS)
+    wf.setsampwidth(p.get_sample_size(p.get_format_from_width(RESPEAKER_WIDTH)))
+    wf.setframerate(RESPEAKER_RATE)
+    wf.writeframes(b''.join(frames))
+    wf.close()
 
 
-#write result to text file
-with open('output.txt','w') as file:
-    file.write(result["text"])
-    file.write('\n')
+    #run whisper base model to transcribe audio file
+    result = model.transcribe("/home/nesl/output.wav")
+    print(result["text"])
+    return result["text"]
 
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-#establish SSH connection
-try:
-    ssh.connect(hostname, username=username, password=password)
-    scp = sshopen_sftp()
-    scp.put(local_path, remote_path)
-    print("File transferred successfully")
+def sendToDesktop(prompt):
+    '''
+    First writes the user prompt into a text file. Then sends the user prompt to the Desktop hosting the LLM.
+    '''
+    #write result to text file
+    with open('output.txt','w') as file:
+        file.write(prompt)
+        file.write('\n')
+    
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-#close ssh connection
-finally:
-    ssh.close()
+    #establish SSH connection
+    try:
+        ssh.connect(hostname, username=username, password=password)
+        scp = sshopen_sftp()
+        scp.put(local_path, remote_path)
+        print("File transferred successfully")
 
+    #close ssh connection
+    finally:
+        ssh.close()
+
+def central_loop():
+    prompt = recordAudio()
+    sendToDesktop(prompt)
+    
+
+
+central_loop()
