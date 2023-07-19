@@ -25,26 +25,6 @@ WAVE_OUTPUT_FILENAME = "output.wav"
 #load the Whisper Model
 model = whisper.load_model("base")
 
-#the directory that the EventHandler should monitor for changes
-dir_to_watch = os.path.abspath('/home/pragya/LLMCode') #CHANGEEEEEEEE THISS-------CHANGE THISSSS ----- CHANGE THISSSS
-watcher_manager = pyinotify.WatchManager()
-
-#----------------------------- DEFINE THE EVENT HANDLER ---------------
-class EventHandler(pyinotify.ProcessEvent):
-    '''
-    def process_IN_MODIFY(self, event):
-        file_path = os.path.join(event.path, event.name)
-        if file_path == prompt_file_path:
-            print(f"File: {prompt_file_path} is being modified...")
-    '''
-    def process_IN_CLOSE_WRITE(self, event):
-        file_path = os.path.join(event.path, event.name)
-        if file_path == prompt_file_path:
-            # Process the file update event
-            cur_time = time.ctime(time.time())
-            print(f"File updated: {file_path} at {cur_time}")
-            central_loop(file_path)
-
 #----------------------------- AUXILIARY FUNCTIONS ------------------
 
 def recordAudio():
@@ -119,28 +99,9 @@ def central_loop():
     '''
     Records the user given prompt, stores it in a text file, and finally send it to the Desktop machine hosting the LLM.
     '''
-    #execute code
-    #wait for user activation
     prompt = recordAudio()
     sendToDesktop(prompt)
     
 
 #----------------------------- MAIN CODE ------------------
-watch_mask = pyinotify.IN_CLOSE_WRITE
-watcher_manager.add_watch(dir_to_watch, watch_mask)
-
-# Create the notifier and associate it with the watcher and event handler
-notifier = pyinotify.Notifier(watcher_manager, EventHandler())
-
-# run once
-prompt = recordAudio()
-sendToDesktop(prompt)
-
-# Start monitoring for file changes
-try:
-    print(f"Monitoring file: {prompt_file_path}")
-    notifier.loop()
-except KeyboardInterrupt:
-    # Exit gracefully when interrupted by Ctrl+C
-    notifier.stop()
-    print("Monitoring stopped")
+central_loop()
