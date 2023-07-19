@@ -25,6 +25,8 @@ WAVE_OUTPUT_FILENAME = "output.wav"
 #load the Whisper Model
 model = whisper.load_model("base")
 
+#----------------------------- AUXILIARY FUNCTIONS ------------------
+
 def recordAudio():
     '''
     Uses the microphone module to record the user input and store it in string form into a variable.
@@ -92,10 +94,14 @@ def sendToDesktop(prompt):
     finally:
         ssh.close()
 
+#----------------------------- MAIN LOOPED FUNCTION ------------------
 def central_loop():
+    '''
+    Records the user given prompt, stores it in a text file, and finally send it to the Desktop machine hosting the LLM.
+    '''
     prompt = recordAudio()
     sendToDesktop(prompt)
     
 
-
+#----------------------------- MAIN CODE ------------------
 central_loop()
