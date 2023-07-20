@@ -1,7 +1,12 @@
-import pyaudio
+
 import wave
 import whisper
+import os
 import paramiko
+import pyaudio
+import pyinotify
+import subprocess
+import time
 
 #ssh remote computer information
 hostname = '192.168.50.233'
@@ -9,7 +14,7 @@ username = 'pragya'
 password = 'neslrocks!'
 
 #path variables to the files
-local_path = '/home/nesl/output.txt'
+local_path = '/home/nesl/userTask.txt' #output of the Whisper model (the user task)
 remote_path = '/home/pragya/LLMCode/instruction.txt'
 
 #variables related to the microphone module
@@ -20,14 +25,15 @@ RESPEAKER_WIDTH = 2
 RESPEAKER_INDEX = 1  # refer to input device id
 CHUNK = 1024
 RECORD_SECONDS = 10
-WAVE_OUTPUT_FILENAME = "output.wav"
+WAVE_OUTPUT_FILENAME = "userTask.wav"
 
 #load the Whisper Model
 model = whisper.load_model("base")
 
 #the directory that the EventHandler should monitor for changes
-dir_to_watch = os.path.abspath('/home/pragya/LLMCode') #CHANGEEEEEEEE THISS-------CHANGE THISSSS ----- CHANGE THISSSS
+dir_to_watch = os.path.abspath('/home/nesl')
 watcher_manager = pyinotify.WatchManager()
+prompt_file_path = "/home/nesl/desktopTransferredCode.py"
 
 #----------------------------- DEFINE THE EVENT HANDLER ---------------
 class EventHandler(pyinotify.ProcessEvent):
@@ -43,7 +49,7 @@ class EventHandler(pyinotify.ProcessEvent):
             # Process the file update event
             cur_time = time.ctime(time.time())
             print(f"File updated: {file_path} at {cur_time}")
-            central_loop(file_path)
+            central_loop()
 
 #----------------------------- AUXILIARY FUNCTIONS ------------------
 
@@ -86,7 +92,7 @@ def recordAudio():
 
 
     #run whisper base model to transcribe audio file
-    result = model.transcribe("/home/nesl/output.wav")
+    result = model.transcribe("/home/nesl/userTask.wav")
     print(result["text"])
     return result["text"]
 
@@ -96,7 +102,7 @@ def sendToDesktop(prompt):
     First writes the user prompt into a text file. Then sends the user prompt to the Desktop hosting the LLM.
     '''
     #write result to text file
-    with open('output.txt','w') as file:
+    with open('userTask.txt','w') as file:
         file.write(prompt)
         file.write('\n')
     
@@ -120,8 +126,10 @@ def central_loop():
     Records the user given prompt, stores it in a text file, and finally send it to the Desktop machine hosting the LLM.
     '''
     #execute code
+    subprocess.run(['python3', 'desktopTransferredCode.py'])
     #wait for user activation
-    prompt = recordAudio()
+    #prompt = recordAudio() - UNCOMMENT IN FINAL VERSION
+    prompt = "Given the functions below, write Python code to make the robot move 2 meters froward." # DELETE IN FINAL VERSION
     sendToDesktop(prompt)
     
 
@@ -133,8 +141,8 @@ watcher_manager.add_watch(dir_to_watch, watch_mask)
 notifier = pyinotify.Notifier(watcher_manager, EventHandler())
 
 # run once
-prompt = recordAudio()
-sendToDesktop(prompt)
+#prompt = recordAudio() - UNCOMMENT IN FINAL VERSION
+prompt = "Given the functions below, write Python code to make the robot move 2 meters froward." # DELETE IN FINAL VERSION
 
 # Start monitoring for file changes
 try:
