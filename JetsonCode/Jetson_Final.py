@@ -112,7 +112,7 @@ def sendToDesktop(prompt):
     #establish SSH connection
     try:
         ssh.connect(hostname, username=username, password=password)
-        scp = sshopen_sftp()
+        scp = ssh.open_sftp()
         scp.put(local_path, remote_path)
         print("File transferred successfully")
 
@@ -126,6 +126,7 @@ def central_loop():
     Records the user given prompt, stores it in a text file, and finally send it to the Desktop machine hosting the LLM.
     '''
     #execute code
+    subprocess.run(['chmod', '+x', 'desktopTransferredCode.py'])
     subprocess.run(['python3', 'desktopTransferredCode.py'])
     #wait for user activation
     #prompt = recordAudio() - UNCOMMENT IN FINAL VERSION
