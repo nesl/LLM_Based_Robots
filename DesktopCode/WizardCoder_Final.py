@@ -7,7 +7,6 @@ import paramiko
 
 #-----------------------------------LOAD TOKENIZER AND MODEL----------------------------------------
 tokenizer = AutoTokenizer.from_pretrained("WizardLM/WizardCoder-15B-V1.0")
-#model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0").to("cuda")
 model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", device_map='auto')
 #model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", device_map='sequential', max_memory={0: '49 GiB'}, revision='main', low_cpu_mem_usage = True, offload_folder='offload')
 print("Model Loaded")
@@ -34,7 +33,7 @@ class EventHandler(pyinotify.ProcessEvent):
             # Process the file update event
             cur_time = time.ctime(time.time())
             print(f"File updated: {file_path} at {cur_time}")
-            central_loop(file_path)
+            central_loop(file_path) #run the central_loop function when the file is updated
             
 #----------------------------- AUXILIARY FUNCTIONS ------------------
 
@@ -55,6 +54,13 @@ def generate_code(prompt_file_path):
     start_time = time.time()
     # tokenize prompt and model generate
     try:
+        '''
+        Following is how the prompt should be structured for WizardCoder-15B:
+            prompt = "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response: "
+        For Vicuna:
+            prompt = "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: hello, who are you? ASSISTANT: "
+        '''
+        
         inputs = tokenizer(prompt, return_tensors="pt").to("cuda").input_ids
         outputs = model.generate(inputs, pad_token_id = tokenizer.pad_token_id, bos_token_id = tokenizer.bos_token_id, eos_token_id = tokenizer.eos_token_id,max_new_tokens = 10000, temperature=0.2, do_sample=True, top_k=15, top_p=0.95)
         #outputs = model.generate(inputs, pad_token_id = tokenizer.pad_token_id, bos_token_id = tokenizer.bos_token_id, eos_token_id = tokenizer.eos_token_id,max_new_tokens = 10000, temperature=0.2, do_sample=False)
@@ -68,6 +74,10 @@ def generate_code(prompt_file_path):
     except Exception as e:
         print("Error when decoding:", str(e))
         exit(e)
+        
+    #record how long it took to execute the file
+    end_time = time.time()
+    time_used = end_time - start_time
 
     # save to code file
     try:
@@ -83,8 +93,7 @@ def generate_code(prompt_file_path):
     except Exception as e:
         print("Error when write file LLM_genereated_code_test.py:", str(e))
         exit(e)
-    end_time = time.time()
-    time_used = end_time - start_time
+        
     print("Finish Generating Code:", time_used)
     
 def write_to_comp():
