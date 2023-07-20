@@ -143,7 +143,7 @@ notifier = pyinotify.Notifier(watcher_manager, EventHandler())
 # run once
 #prompt = recordAudio() - UNCOMMENT IN FINAL VERSION
 prompt = "Given the functions below, write Python code to make the robot move 2 meters froward." # DELETE IN FINAL VERSION
-    sendToDesktop(prompt)
+sendToDesktop(prompt)
 
 # Start monitoring for file changes
 try:
