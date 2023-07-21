@@ -8,8 +8,8 @@ import subprocess
 import time
 
 # Path variables to the files
-local_path = '/home/nesl/userTask.txt' #output of the Whisper model (the user task)
-remote_path = '/home/pragya/LLMCode/instruction.txt'
+local_path = '/home/nesl/userTask.txt' # output of the Whisper model (the user task)
+remote_path = '/home/pragya/LLMCode/instruction.txt' # path to save user task on desktop machine
 
 # Load the Whisper Model
 model = whisper.load_model("base")
@@ -17,19 +17,19 @@ model = whisper.load_model("base")
 # The directory that the EventHandler should monitor for changes
 dir_to_watch = os.path.abspath('/home/nesl')
 watcher_manager = pyinotify.WatchManager()
-prompt_file_path = '/home/nesl/desktopTransferredCode.py'
+code_file_path = '/home/nesl/desktopTransferredCode.py' # path that the desktop stores the generated code in the Jetson
 
 #----------------------------- DEFINE THE EVENT HANDLER ---------------
 class EventHandler(pyinotify.ProcessEvent):
     '''
     def process_IN_MODIFY(self, event):
         file_path = os.path.join(event.path, event.name)
-        if file_path == prompt_file_path:
-            print(f"File: {prompt_file_path} is being modified...")
+        if file_path == code_file_path:
+            print(f"File: {code_file_path} is being modified...")
     '''
     def process_IN_CLOSE_WRITE(self, event):
         file_path = os.path.join(event.path, event.name)
-        if file_path == prompt_file_path:
+        if file_path == code_file_path:
             # Process the file update event
             cur_time = time.ctime(time.time())
             print(f"File updated: {file_path} at {cur_time}")
@@ -150,7 +150,7 @@ central_loop(0)
 
 # Start monitoring for file changes
 try:
-    print(f"Monitoring file: {prompt_file_path}")
+    print(f"Monitoring file: {code_file_path}")
     notifier.loop()
 except KeyboardInterrupt:
     # Exit gracefully when interrupted by Ctrl+C
