@@ -87,7 +87,7 @@ def recordAudio():
 
 
     #run whisper base model to transcribe audio file
-    result = model.transcribe("/home/nesl/userTask.wav")
+    result = model.transcribe('/home/nesl/userTask.wav')
     print(result["text"])
     return result["text"]
 
@@ -103,7 +103,7 @@ def sendToDesktop(prompt):
     password = 'neslrocks!'
     
     #write result to text file
-    with open('userTask.txt','w') as file:
+    with open(local_path,'w') as file:
         file.write(prompt)
         file.write('\n')
     
