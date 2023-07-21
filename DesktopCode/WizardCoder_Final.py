@@ -12,9 +12,10 @@ model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", de
 print("Model Loaded")
 
 # Path to the necessary files
-prompt_file_path = '/home/pragya/LLMCode/prompt.txt'
-code_file_path = '/home/pragya/LLMCode/LLM_generated_code.py'
-api_list = ['/home/pragya/LLMCode/create3api.txt']
+task_file_path = '/home/pragya/LLMCode/instruction.txt' # User Task sent by Jetson
+code_file_path = '/home/pragya/LLMCode/LLM_generated_code.py' # Destination of output code created by LLM
+api_list = ['/home/pragya/LLMCode/create3api.txt'] # Descriptions of functions for each of the devices on the robot
+remote_path = '/home/nesl/desktopTransferredCode.py' # Path to store file in Jetson
 
 # The directory that the EventHandler should monitor for changes
 dir_to_watch = os.path.abspath('/home/pragya/LLMCode')
@@ -25,12 +26,12 @@ class EventHandler(pyinotify.ProcessEvent):
     '''
     def process_IN_MODIFY(self, event):
         file_path = os.path.join(event.path, event.name)
-        if file_path == prompt_file_path:
-            print(f"File: {prompt_file_path} is being modified...")
+        if file_path == task_file_path:
+            print(f"File: {task_file_path} is being modified...")
     '''
     def process_IN_CLOSE_WRITE(self, event):
         file_path = os.path.join(event.path, event.name)
-        if file_path == prompt_file_path:
+        if file_path == task_file_path:
             # Process the file update event
             cur_time = time.ctime(time.time())
             print(f"File updated: {file_path} at {cur_time}")
@@ -38,7 +39,7 @@ class EventHandler(pyinotify.ProcessEvent):
             
 #----------------------------- AUXILIARY FUNCTIONS ------------------
 
-def generate_code(prompt_file_path):
+def generate_code():
     '''
     First, it creates the prompt by appending the user given input and the APIs of all the different hardware systems.
     Then it passes it into the LLM to generate an output. Upon receiving the output, it writes only the code portion of the output into a .py file.
@@ -48,7 +49,7 @@ def generate_code(prompt_file_path):
     # read from prompt file
     try:
         # first record the user task sent by the Jetson
-        with open (prompt_file_path, 'r') as prompt_file:
+        with open (task_file_path, 'r') as prompt_file:
             prompt = prompt_file.read()
             
         # append the APIs to the prompt
@@ -115,16 +116,13 @@ def write_to_comp():
     username = 'nesl'
     password = 'nesl'
 
-    local_path = code_file_path #path to file on desktop to copy onto Jetson
-    remote_path = '/home/nesl/desktopTransferredCode.py' #path to store file in Jetson
-
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     try:
         ssh.connect(hostname, username=username, password=password)
         scp = ssh.open_sftp()
-        scp.put(local_path, remote_path)
+        scp.put(code_file_path, remote_path)
         print("File transferred successfully")
     finally:
         ssh.close()
@@ -132,13 +130,13 @@ def write_to_comp():
 
 
 #----------------------------- MAIN LOOPED FUNCTION ------------------
-def central_loop(prompt_file_path):
+def central_loop():
     '''
     First, it runs the LLM with the prompt given and writes the Python code portion of the output to a file using the generate_code function.
     Then it sends the generated Python code file to the Jetson using the write_to_comp function.
     '''
 
-    generate_code(prompt_file_path)
+    generate_code()
     write_to_comp()
 
 
@@ -152,11 +150,11 @@ watcher_manager.add_watch(dir_to_watch, watch_mask)
 notifier = pyinotify.Notifier(watcher_manager, EventHandler())
 
 # run once for TESTING PURPOSES
-#central_loop(prompt_file_path)
+#central_loop()
 
 # Start monitoring for file changes
 try:
-    print(f"Monitoring file: {prompt_file_path}")
+    print(f"Monitoring file: {task_file_path}")
     notifier.loop()
 except KeyboardInterrupt:
     # Exit gracefully when interrupted by Ctrl+C

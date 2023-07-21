@@ -1,4 +1,3 @@
-
 import wave
 import whisper
 import os
@@ -7,11 +6,6 @@ import pyaudio
 import pyinotify
 import subprocess
 import time
-
-#ssh remote computer information
-hostname = '192.168.50.233'
-username = 'pragya'
-password = 'neslrocks!'
 
 #path variables to the files
 local_path = '/home/nesl/userTask.txt' #output of the Whisper model (the user task)
@@ -101,6 +95,12 @@ def sendToDesktop(prompt):
     '''
     First writes the user prompt into a text file. Then sends the user prompt to the Desktop hosting the LLM.
     '''
+
+    #ssh remote computer information
+    hostname = '192.168.50.233'
+    username = 'pragya'
+    password = 'neslrocks!'
+    
     #write result to text file
     with open('userTask.txt','w') as file:
         file.write(prompt)
