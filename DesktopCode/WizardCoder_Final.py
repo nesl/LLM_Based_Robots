@@ -1,9 +1,9 @@
 # Libraries to download
+import os
+import paramiko
+import pyinotify
 import time
 from transformers import AutoTokenizer, AutoModelForCausalLM
-import os
-import pyinotify
-import paramiko
 
 #-----------------------------------LOAD TOKENIZER AND MODEL----------------------------------------
 tokenizer = AutoTokenizer.from_pretrained("WizardLM/WizardCoder-15B-V1.0")
