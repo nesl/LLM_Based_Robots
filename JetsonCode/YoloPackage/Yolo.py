@@ -6,6 +6,8 @@ class Yolo:
 	
 	# load model
 	def __init__(self):
+        
+        #load the model/tool
 		self.model = yolov5.load('fcakyon/yolov5s-v7.0')
 		# set model parameters
 		self.model.conf = 0.5  # NMS confidence threshold
@@ -21,14 +23,13 @@ class Yolo:
 
 	#runs the model on an image
 	def recognize_obj(self):
-		# perform inference
-		results = self.model(self.img)
-
-		# inference with larger input size
-		results = self.model(self.img, size=640)
-
-		# inference with test time augmentation
-		results = self.model(self.img, augment=True)
+        '''
+        Uses the Yolo tool to perform object detection on a given image.
+        After identifying all the possible objects within the image, a list of lists is returned, with each the first four elements of each internal list being ____ and the last element being the type of object.
+        '''
+ 
+		# inference with larger input size and with test time augmentation
+		results = self.model(self.img, size=640, augment=True)
 
 		# substitute index to object types
 		predictions = results.pred[0]
@@ -44,6 +45,9 @@ class Yolo:
 	
 	#searches for a specific object in the last processed image
 	def searchObject(self, obj):
+        '''
+        
+        '''
 		for i in range(0, len(self.data)):
 			if self.data[i][5] == obj:
 				return True
