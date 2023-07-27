@@ -4,17 +4,17 @@ from irobot_edu_sdk.robots import event, hand_over, Color, Create3
 from irobot_edu_sdk.music import Note
 import queue
 
-
-room_map = [['E','E','B','B'],['B','E','E','B'],['E','E','E','B'],['B','E','E','E']]
-
 class Robot:
+    #--------------------------------------------  global variables --------------------------------------------#
     def __init__(self): 
-        # global variables
         self.robot = Create3(Bluetooth())
         self.DIR = [0,1,0,-1,0]
         self.UNIT_LENGTH = 20
 
-    # Sound mapping
+
+    #------------------------------------------- sound action mapping -------------------------------------------#
+    ### explanation: define different sounds for different actions of the robot
+
     async def play_sound(self, action):
         if action == 'start_move':
             await self.robot.play_note(Note.A4, 0.5)
@@ -24,26 +24,43 @@ class Robot:
             await self.robot.play_note(Note.C4, 0.5)
         elif action == 'undock':
             await self.robot.play_note(Note.C4_SHARP, 0.5)
-
-
+            
+    #------------------------------ return a list of path that the robot will follow ------------------------------#
+    ### explaination: room_map now has "B" in places that are blocked and integers in places can be arrived showing the steps from the point to the origin. 
+    ###               The target position will have the largest integer on the map.
+    ###               get_path function back trace the numbers in descending order until find a 0, ie, start point. Path list reverse itself after the back trace to get correct sequence of paths that robot will want to follow
+    
     def get_path(self, room_map, start, target):
+        # define an empty path and append the target position
         path = []
         cur_pos = target
         path.append(cur_pos)
+
+        # search for numbers in descending order on map until find start position
         while (cur_pos != start):
             for i in range (0, 4):
                 prev_pos = (cur_pos[0]-self.DIR[i], cur_pos[1]-self.DIR[i+1])
                 if prev_pos[0]<0 or prev_pos[0]>=len(room_map) or prev_pos[1]<0 or prev_pos[1]>=len(room_map[0]):
                     continue
                 if room_map[prev_pos[0]][prev_pos[1]] == room_map[cur_pos[0]][cur_pos[1]]-1:
+                    # add position that matches standard to the list
                     path.append(prev_pos)
                     break
             cur_pos = prev_pos
+        
+        # delete start point from the list
         path.pop()
+
+        # reverse the list to get correct-ordered path
         path.reverse()
         return path
 
-    def BFS(room_map, start, target):
+
+    #------------ BFS that returns a path the robot can follow or exit(1) if robot cannot get to the target place ----------#
+    ### explanation: find and return the shortest path the robot can follow from one point to another
+
+    def BFS(self, room_map, start, target):
+        # if start and target are the same place, no need to move
         if (start == target):
             return []
 
@@ -72,27 +89,57 @@ class Robot:
                     continue
                 room_map[next_pos[0]][next_pos[1]] = room_map[cur_pos[0]][cur_pos[1]]+1
                 my_queue.put(next_pos)
+        
+        # if cannot find path, exit with error
         print("Cannot find a path to the target point")
         exit(1)
 
+    
+    #--------------------------------------- main body of robot navigation action ---------------------------------------#
+    ### explanation: robot mainly follow the actions in this function when fixed_map_navigate_to function is called
+    # action 1: play sound to show the robot starts moving
+    # action 2: call BFS to find the optimal path
+    # action 3: follow the optimal path by using robot.navigate_to function (length between two points is defined by UNIT_LENGTH)
+    # action 4: play sound to show the robot finishes moving
+    # action 5: print "Navigation completed!"
+
     async def helper_fixed_map_navigate_to(self, room_map, target):
+        # action 1
         await self.play_sound('start_move')
+
+        # action 2
         cur_pos = await self.robot.get_position()
         start = (cur_pos.x, cur_pos.y)
         path = self.BFS(room_map, start, target)
         print ("Path: ", path)
+
+        # action 3
         for i in range (0,len(path)):
             x = path[i][0]
             y = path[i][1]
-            await self.robot.navigate_to(x*UNIT_LENGTH, y*UNIT_LENGTH, heading = None)
+            await self.robot.navigate_to(x*self.UNIT_LENGTH, y*self.UNIT_LENGTH, heading = None)
+
+        # action 4
         await self.play_sound('stop_move')
 
+        # action 5
+        print("Navigation completed!")
+
+
+    #--------------------------------------- add navigation helper function to the play loop ---------------------------------------#
+    ### explanation: robot will only start move when robot.play() function is captured by event robot.when_play (reference: irobot_edu_sdk/robot.py).
+    ###              define navigate function to wrap navigation helper function 
+    ###              pass the navigate function to when_play event and call the robot.play()
+
     def fixed_map_navigate_to(self, room_map, target):
-        async def navigate(self):
+        async def navigate(robot):
             await self.helper_fixed_map_navigate_to(room_map, target)
         self.robot.when_play(navigate)
         self.robot.play()  # Start the robot's event loop
 
 
-robot = Robot()
-robot.fixed_map_navigate_to(room_map, (3,3))
+#-------------------------------------------------- test case --------------------------------------------------#
+if __name__ == '__main__':
+    room_map = [['E','E','B','B'],['B','E','E','B'],['E','E','E','B'],['B','E','E','E']]
+    robot = Robot()
+    robot.fixed_map_navigate_to(room_map, (3, 3))
