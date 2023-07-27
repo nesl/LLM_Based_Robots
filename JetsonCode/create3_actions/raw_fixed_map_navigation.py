@@ -7,14 +7,6 @@ import queue
 robot = Create3(Bluetooth())
 print("Successfully connect to create3 robot")
 
-# functional functions
-def f(value):
-    return format(value, '.2f')
-
-async def get_pos(robot):
-    pos = await robot.get_position()
-    return pos
-
 # Sound mapping
 async def play_sound(robot, action):
     if action == 'start_move':
@@ -35,6 +27,7 @@ room_map = [['E','E','B','B'],['B','E','E','B'],['E','E','E','B'],['B','E','E','
 def get_path(room_map, start, target):
     path = []
     cur_pos = target
+    path.append(cur_pos)
     while (cur_pos != start):
         for i in range (0, 4):
             prev_pos = (cur_pos[0]-DIR[i], cur_pos[1]-DIR[i+1])
@@ -44,12 +37,11 @@ def get_path(room_map, start, target):
                 path.append(prev_pos)
                 break
         cur_pos = prev_pos
+    path.pop()
     path.reverse()
     return path
 
 def BFS(room_map, start, target):
-    print("start BFS at:", start)
-
     if (start == target):
         return []
 
@@ -62,13 +54,8 @@ def BFS(room_map, start, target):
     while not my_queue.empty():
         # Get the current position from the front of the queue
         cur_pos = my_queue.get()
-
-        # Perform any desired operations with the current position
-        print("cur pos:", cur_pos, room_map[cur_pos[0]][cur_pos[1]])
-
         # record and return the valid path
         if (cur_pos == target):
-            print("Find target")
             return get_path(room_map, start, target)
         
         # update map to find path
@@ -82,24 +69,25 @@ def BFS(room_map, start, target):
                 room_map[next_pos[0]][next_pos[1]] = min(room_map[next_pos[0]][next_pos[1]], room_map[cur_pos[0]][cur_pos[1]]+1)
                 continue
             room_map[next_pos[0]][next_pos[1]] = room_map[cur_pos[0]][cur_pos[1]]+1
-            print("next pos:", next_pos, room_map[next_pos[0]][next_pos[1]])
             my_queue.put(next_pos)
+    print("Cannot find a path to the target point")
+    exit(1)
 
-async def fixed_map_navigate_to(robot, room_map, start, target):
+async def fixed_map_navigate_to(robot, room_map, target):
     await play_sound(robot, 'start_move')
+    cur_pos = await robot.get_position()
+    start = (cur_pos.x, cur_pos.y)
     path = BFS(room_map, start, target)
     print ("Path: ", path)
     for i in range (0,len(path)):
         # TODO: change unit_length
         x = path[i][0]
         y = path[i][1]
-        await robot.navigate_to(x*UNIT_LEGNTH, y*UNIT_LENGTH, heading = None)
+        await robot.navigate_to(x*UNIT_LENGTH, y*UNIT_LENGTH, heading = None)
     await play_sound(robot, 'stop_move')
 
 @event(robot.when_play)
 async def play(robot):
-    pos = await get_pos(robot)
-    await fixed_map_navigate_to(robot, room_map, (pos.x,pos.y) , (3,3))
+    await fixed_map_navigate_to(robot, room_map, (3,3))
 
 robot.play()
-
