@@ -54,27 +54,25 @@ class Robot:
                 if same_x and next_coordinate and cur_coordinate[0] == next_coordinate[0]:
                     coordinate_to_add = next_coordinate
                     same_y = False
-                    i += 1
                 elif same_y and next_coordinate and cur_coordinate[1] == next_coordinate[1]:
                     coordinate_to_add = next_coordinate
                     same_x = False
-                    i += 1
                 else:
                     # add the last element on the line to merged list
                     merged_path.append(cur_coordinate)
                     same_x = True
                     same_y = True
-                    i += 1
+                i += 1
 
             return merged_path
 
         # Define an empty path and append the target position
         path = []
-        cur_pos = target
+        cur_pos = start
         path.append(cur_pos)
 
         # Search for numbers in descending order on map until find start position
-        while (cur_pos != start):
+        while (cur_pos != target):
             for i in range (0, 4):
                 prev_pos = [cur_pos[0]-self.DIR[i], cur_pos[1]-self.DIR[i+1]]
                 # print(room_map[prev_pos[0]][prev_pos[1]], room_map[cur_pos[0]][cur_pos[1]]) # For debug purpose
@@ -87,7 +85,6 @@ class Robot:
             cur_pos = prev_pos
 
         # Reverse the list to get correct-ordered path
-        path.reverse()
         print("Complete path: ", path)
 
         return merge_path(path)
@@ -100,19 +97,19 @@ class Robot:
     def BFS(self, room_map, start, target):
         # If start and target are the same place, no need to move
         if (start == target):
-            return []
+            return
 
         # BFS 
         my_queue = queue.Queue()
-        my_queue.put(start)   
-        room_map[start[0]][start[1]] = 0
+        my_queue.put(target)   
+        room_map[target[0]][target[1]] = 0
 
         # Process elements in the queue until it becomes empty
         while not my_queue.empty():
             # Get the current position from the front of the queue
             cur_pos = my_queue.get()
             # record and return the valid path
-            if (cur_pos == target):
+            if (cur_pos == start):
                 return self.get_path(room_map, start, target)
             
             # Update map to find path
