@@ -12,7 +12,7 @@ print("Model loaded")
 
 #Path to the necessary files
 prompt_file_path = '/home/pragya/LLMCode/VicunaNLPrompt.txt'
-code_file_path = '/home/pragya/LLMCode/VicunaDocumentation.txt'
+code_file_path = '/home/pragya/LLMCode/Vicuna7BDocumentation.txt'
 
 class EventHandler(pyinotify.ProcessEvent):
     '''

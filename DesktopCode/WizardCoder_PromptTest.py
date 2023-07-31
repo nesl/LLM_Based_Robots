@@ -15,7 +15,7 @@ print("Model Loaded")
 
 #Path to the necessary files
 prompt_file_path = '/home/pragya/LLMCode/prompt.txt'
-code_file_path = '/home/pragya/LLMCode/wizarddocumentation.txt'
+code_file_path = '/home/pragya/LLMCode/WizardCoderDocumentation.txt'
 
 #the directory that the EventHandler should monitor for changes
 dir_to_watch = os.path.abspath('/home/pragya/LLMCode')
