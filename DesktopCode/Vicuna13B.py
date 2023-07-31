@@ -11,7 +11,7 @@ model = AutoModelForCausalLM.from_pretrained("lmsys/vicuna-13b-v1.3", torch_dtyp
 print("Model loaded")
 
 #Path to the necessary files
-prompt_file_path = '/home/pragya/LLMCode/VicunaPrompt.txt'
+prompt_file_path = '/home/pragya/LLMCode/VicunaNLPrompt.txt'
 code_file_path = '/home/pragya/LLMCode/Vicuna13BDocumentation.txt'
 
 class EventHandler(pyinotify.ProcessEvent):
