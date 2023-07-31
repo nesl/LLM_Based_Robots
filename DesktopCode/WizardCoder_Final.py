@@ -8,13 +8,11 @@ import torch
 
 #-----------------------------------LOAD TOKENIZER AND MODEL----------------------------------------
 tokenizer = AutoTokenizer.from_pretrained("WizardLM/WizardCoder-15B-V1.0")
-#model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0").to("cuda")
-#model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", device_map='auto')
 model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", torch_dtype=torch.float16, device_map='sequential', max_memory={0: '49 GiB'}, revision='main', low_cpu_mem_usage = True, offload_folder='offload')
 print("Model Loaded")
 
 #Path to the necessary files
-prompt_file_path = '/home/pragya/LLMCode/prompt.txt'
+prompt_file_path = '/home/pragya/LLMCode/WizardCoderPrompt.txt'
 code_file_path = '/home/pragya/LLMCode/LLM_generated_code.py'
 
 #the directory that the EventHandler should monitor for changes
@@ -71,7 +69,7 @@ def generate_code(prompt_file_path):
     print("Running model.")
     # read from prompt file
     try:
-        with open ('/home/pragya/LLMCode/prompt.txt', 'r') as prompt_file:
+        with open (prompt_file_path, 'r') as prompt_file:
             prompt = prompt_file.read()
             
         #with open ('/home/pragya/LLMCode/create3api.txt', 'r') as prompt_file:
