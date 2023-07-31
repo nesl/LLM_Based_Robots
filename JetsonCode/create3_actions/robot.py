@@ -1,6 +1,6 @@
 class RobotFunctions:
     
-    script_file = '/home/nesl/autoRobot/create3_actions/RobotROS2.sh'
+    script_file = '/home/nesl/RobotROS2.sh'
 
     def __init__(self):
         import subprocess
@@ -70,7 +70,7 @@ class RobotFunctions:
         else:
             print("Command failed with return code:", output.returncode)
             print("Error output:", output.stderr)
-
+'''
 while True:
     input_string=input("Next instruction: ")
     print("command copied")
@@ -94,3 +94,4 @@ while True:
     except Exception as e:
     	# Handle the exception
     	print("An error occurred: ", e)
+'''
