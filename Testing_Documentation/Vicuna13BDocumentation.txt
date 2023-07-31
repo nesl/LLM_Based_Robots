@@ -1,0 +1,486 @@
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Have an alternate plan, also broken into subtasks, if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+### Alternate Plan
+{Write a sequence of subtasks the user should take if they cannot complete the task.}
+
+Task: Get my waterbottle from my desk.
+
+Subtasks:
+
+1. Move the robot to the user's desk using the base.
+2. Use the LiDar camera to observe the surroundings and locate the waterbottle on the desk.
+3. Use the robotic arm to pick up the waterbottle.
+4. Move the robot to the user's designated location for the waterbottle.
+5. Use the speaker to inform the user that the waterbottle has been retrieved.
+
+Alternate Plan:
+
+1. Ask the user if they can see their waterbottle.
+2. If the user cannot see their waterbottle, ask the user to describe the location of their waterbottle.
+3. Use the LiDar camera to observe the surroundings and locate the waterbottle based on the user's description.
+4. Use the robotic arm to pick up the waterbottle.
+5. Move the robot to the user's designated location for the waterbottle.
+6. Use the speaker to inform the user that the waterbottle has been retrieved.Time used (unit: s): 13.4595627784729
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Interate an alternate plan, also broken into subtasks,into the main plan if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+### Main Plan
+
+1. Move the robot to the user's desk using the base.
+2. Use the LiDar camera to observe the surroundings and locate the water bottle on the desk.
+3. Use the robotic arm to pick up the water bottle.
+4. Use the speaker to inform the user that the water bottle has been picked up.
+5. Use the base to move the robot to the user's location.
+6. Use the microphone to confirm that the user is in the correct location.
+7. Use the speaker to inform the user that the water bottle is in their hand.
+
+### Alternate Plan
+
+1. Move the robot to the user's desk using the base.
+2. Use the LiDar camera to observe the surroundings and locate the water bottle on the desk.
+3. Use the robotic arm to pick up the water bottle.
+4. Use the microphone to ask the user if they have a specific location in mind to place the water bottle.
+5. If the user responds with a location, use the robotic arm to place the water bottle in the specified location.
+6. If the user does not respond or does not have a specific location in mind, use the base to move the robot to a convenient location for the user to place the water bottle.
+7. Use the speaker to inform the user that the water bottle has been placed.
+8. Use the microphone to confirm that the user is satisfied with the placement of the water bottle.
+9. Use the speaker to inform the user that the task is complete.Time used (unit: s): 16.37368631362915
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+Subtask 1:
+{What component of the robot system should be used?}
+
+* Base
+
+Subtask 2:
+{What should the user do next?}
+
+* Move the robot to the location of the water bottle using the LiDar camera to observe the surroundings.
+
+Subtask 3:
+{What should the user do next?}
+
+* Use the robotic arm to pick up the water bottle.
+
+Subtask 4:
+{What should the user do next?}
+
+* Move the robot to a safe location to avoid any accidents.
+
+Subtask 5:
+{What should the user do next?}
+
+* Use the speaker to inform the user that the water bottle has been retrieved.
+
+Subtask 6:
+{What should the user do next?}
+
+* Use the microphone to listen to the environment or for user commands.Time used (unit: s): 8.896166563034058
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+Required Output Format:
+All the subtasks must be listed in numbered steps.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+Note: The user's desk is in the same room as the user. The user is not sure where the water bottle is located on the desk.Time used (unit: s): 1.6674249172210693
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+Required Rules for Output Format:
+All the subtasks must be listed in numbered steps.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+Note: The user's desk is in the same room as the user. The user is not sure where the water bottle is located on the desk.Time used (unit: s): 1.6757376194000244
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+Subtask 1:
+{What component of the robot system should be used?}
+
+* Base
+
+Subtask 2:
+{What should the user do next?}
+
+* Move the robot to the location of the water bottle using the LiDar camera to observe the surroundings.
+
+Subtask 3:
+{What should the user do next?}
+
+* Use the robotic arm to pick up the water bottle.
+
+Subtask 4:
+{What should the user do next?}
+
+* Move the robot to a safe location to avoid any accidents.
+
+Subtask 5:
+{What should the user do next?}
+
+* Use the speaker to inform the user that the water bottle has been retrieved.
+
+Subtask 6:
+{What should the user do next?}
+
+* Use the microphone to listen to the environment or for user commands.Time used (unit: s): 8.864173173904419
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Create an alternate plan, also broken into subtasks, if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+### Alternate Plan
+{If the user cannot complete the task, provide an alternate plan for the robot to complete the task.}
+
+### Notes
+{Provide any additional notes to facilitate the task.}
+
+### Subtasks
+
+1. Determine the location of the water bottle.
+2. Move the robot to the location of the water bottle.
+3. Use the robotic arm to pick up the water bottle.
+4. Move the robot to the user's desk.
+5. Give the water bottle to the user.
+
+### Alternate Plan
+
+1. Use the LiDar camera to observe the surroundings and locate the water bottle.
+2. Use the robotic arm to pick up the water bottle.
+3. Move the robot to the user's desk.
+4. Give the water bottle to the user.
+
+### Notes
+
+* If the user cannot determine the location of the water bottle, ask for clarification.
+* If the water bottle is not found in the expected location, inform the user and ask for a new location.Time used (unit: s): 11.211951732635498
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Have an alternate plan, also broken into subtasks, if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+Please provide the subtasks for the following task:
+"Please pick up the red ball from the table and bring it to me."
+
+Subtasks:
+
+1. Determine the location of the red ball.
+2. Move the robot base to the location of the red ball.
+3. Use the robotic arm to pick up the red ball.
+4. Move the robot base to the user's location.
+5. Use the robotic arm to hand the red ball to the user.Time used (unit: s): 5.40468955039978
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Have an alternate plan, also broken into subtasks, if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+Please provide the subtasks for the following task:
+"Please pick up the red ball from the table and bring it to me."
+
+Subtasks:
+
+1. Determine the location of the red ball.
+2. Move the robot base to the location of the red ball.
+3. Use the robotic arm to pick up the red ball.
+4. Move the robot base to the user's location.
+5. Use the robotic arm to hand the red ball to the user.Time used (unit: s): 4.903698205947876
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Have an alternate plan, also broken into subtasks, if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+### Alternate Plan
+{Write a sequence of subtasks the user should take if they cannot complete the task.}
+
+Task: Get my waterbottle from my desk.
+
+Subtasks:
+
+1. Move the robot to the user's desk using the base.
+2. Use the LiDar camera to observe the surroundings and locate the waterbottle on the desk.
+3. Use the robotic arm to pick up the waterbottle.
+4. Move the robot to the user's designated location for the waterbottle.
+5. Use the speaker to inform the user that the waterbottle has been retrieved.
+
+Alternate Plan:
+
+1. Ask the user if they can see their waterbottle.
+2. If the user cannot see their waterbottle, ask the user to describe the location of their waterbottle.
+3. Use the LiDar camera to observe the surroundings and locate the waterbottle based on the user's description.
+4. Use the robotic arm to pick up the waterbottle.
+5. Move the robot to the user's designated location for the waterbottle.
+6. Use the speaker to inform the user that the waterbottle has been retrieved.Time used (unit: s): 13.39659833908081
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Have an alternate plan, also broken into subtasks, if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+### Alternate Plan
+{Write a sequence of subtasks the user should take if they cannot complete the task.}
+
+Task: Get my waterbottle from my desk.
+
+Subtasks:
+
+1. Move the robot to the user's desk using the base.
+2. Use the LiDar camera to observe the surroundings and locate the waterbottle on the desk.
+3. Use the robotic arm to pick up the waterbottle.
+4. Move the robot to the user's designated location for the waterbottle.
+5. Use the speaker to inform the user that the waterbottle has been retrieved.
+
+Alternate Plan:
+
+1. Ask the user if they can see their waterbottle.
+2. If the user cannot see their waterbottle, ask the user to describe the location of their waterbottle.
+3. Use the LiDar camera to observe the surroundings and locate the waterbottle based on the user's description.
+4. Use the robotic arm to pick up the waterbottle.
+5. Move the robot to the user's designated location for the waterbottle.
+6. Use the speaker to inform the user that the waterbottle has been retrieved.Time used (unit: s): 12.97511100769043
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Have an alternate plan, also broken into subtasks, if the task cannot be completed by the user.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+Required Format for Output:
+
+<Number of subtask>: <Description of Subtask> - <Robot System Components needed to complete subtask>
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+### Alternate Plan
+{Write a sequence of subtasks the user should take if they cannot complete the task.}
+
+Note: The user's desk is located in the same room as the robot.Time used (unit: s): 2.1259217262268066
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+The user is sending an instruction to a robot. You are an artificial intelligent assistant that breaks down a task into subtasks that the robot can perform to complete the overall task. The robot system's components are listed below with a description and what they are necessary for. Have an alternate plan, also broken into subtasks, if the task cannot be completed by the user. For each subtask, give a description of the task and list the robot components necessary to complete it.
+
+Robot System Component List:
+- Base: Used to move the robot around. Must be used for all tasks that require movement.
+- LiDar camera: Used to observe surroundings. Must be used for all tasks that require object detection.
+- Robotic arm: Used to pick up objects. Must be used for all tasks that require object manipulation.
+- Speaker: Used to speak to the user. Must be used for audio output.
+- Microphone: Used to listen to robot's environment. Must be used to listen to the environment or for user commands.
+
+Notes to facilitate tasks:
+To find objects, first determine the most probable place to find them.
+If clarification is needed, ask the user.
+If a task cannot be completed, tell the user.
+
+### User Instruction
+{Write a sequence of subtasks the user should take to complete the following task: Get my waterbottle from my desk.}
+
+### Task Plan
+
+1. **Determine the location of the water bottle**:
+	* Use the LiDar camera to observe the surroundings and identify the water bottle.
+	* If the water bottle is not visible, ask the user for clarification.
+2. **Move the robot to the water bottle**:
+	* Use the base to move the robot to the location of the water bottle.
+3. **Pick up the water bottle**:
+	* Use the robotic arm to pick up the water bottle.
+4. **Bring the water bottle to the user**:
+	* Use the base to move the robot to the user's location.
+	* Use the robotic arm to give the water bottle to the user.
+
+### Alternate Plan
+
+If the task cannot be completed, tell the user.Time used (unit: s): 8.84941053390503
+
+
+

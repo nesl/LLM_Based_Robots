@@ -3,14 +3,16 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
 import time
 import pyinotify
+import torch
 
 tokenizer = AutoTokenizer.from_pretrained("lmsys/vicuna-7b-v1.3")
 model = AutoModelForCausalLM.from_pretrained("lmsys/vicuna-7b-v1.3", device_map = 'cuda:0')
-
+#model = AutoModelForCausalLM.from_pretrained("lmsys/vicuna-7b-v1.3", torch_dtype=torch.float16, device_map='sequential', max_memory={1: '12 GiB'}, revision='main', low_cpu_mem_usage = True, offload_folder='offload')
 print("Model loaded")
 
 #Path to the necessary files
-prompt_file_path = '/home/pragya/LLMCode/prompt.txt'
+prompt_file_path = '/home/pragya/LLMCode/VicunaPrompt.txt'
+code_file_path = '/home/pragya/LLMCode/VicunaDocumentation.txt'
 
 class EventHandler(pyinotify.ProcessEvent):
     '''
@@ -42,9 +44,8 @@ def generate_code(prompt_file_path):
 	# tokenize prompt and model generate
 	try:
 		inputs = tokenizer(prompt, return_tensors="pt").to("cuda").input_ids
-		#outputs = model.generate(inputs, pad_token_id = tokenizer.pad_token_id, bos_token_id = tokenizer.bos_token_id, eos_token_id = tokenizer.eos_token_id,max_length = 2048, temperature=0.2, do_sample=True, top_k=15, top_p=0.95)
-		outputs = model.generate(inputs, pad_token_id = tokenizer.pad_token_id, bos_token_id = tokenizer.bos_token_id, eos_token_id = tokenizer.eos_token_id,max_length = 2048, temperature=0.2, do_sample=False)
-		#outputs = model.generate(inputs, pad_token_id = tokenizer.pad_token_id, bos_token_id = tokenizer.bos_token_id, eos_token_id = tokenizer.eos_token_id,max_new_tokens = 10000, temperature=0.2, do_sample=False)
+		outputs = model.generate(inputs ,max_length = 2048, temperature=0.2, top_p=1)
+		#outputs = model.generate(inputs,max_length = 2048, temperature=0.2, do_sample=False)
 	except Exception as e:
 		print("Error when tokenize input the generate output:", str(e))
 		exit(e)
@@ -57,8 +58,20 @@ def generate_code(prompt_file_path):
 	  	print("Error when decoding:", str(e))
 	  	exit(e)
 		  
-	for code_piece in code:
-		print(code_piece)
+	# save to code file
+	try:
+		with open(code_file_path, 'a', encoding='UTF-8') as code_file:
+			code_file.write('------------------------------------------new prompt and output------------------------------------------\n')
+			for item in code:
+				print(item)
+				code_file.write(item)
+			code_file.write("Time used (unit: s): ")
+			code_file.write(str(end_time - start_time))
+			code_file.write("\n\n\n\n")
+			print("Finish recording results")
+	except Exception as e:
+		print("Error when write file LLM_genereated_code_test.py:", str(e))
+		exit(e)
 		
 	time_used = end_time - start_time
 	print("Finish Generating Code:", time_used)

@@ -6,8 +6,6 @@ class Yolo:
 	
 	# load model
 	def __init__(self):
-        
-        #load the model/tool
 		self.model = yolov5.load('fcakyon/yolov5s-v7.0')
 		# set model parameters
 		self.model.conf = 0.5  # NMS confidence threshold
@@ -23,13 +21,14 @@ class Yolo:
 
 	#runs the model on an image
 	def recognize_obj(self):
-        '''
-        Uses the Yolo tool to perform object detection on a given image.
-        After identifying all the possible objects within the image, a list of lists is returned, with each the first four elements of each internal list being ____ and the last element being the type of object.
-        '''
- 
-		# inference with larger input size and with test time augmentation
+		# perform inference
+		results = self.model(self.img)
+		results.show()
+		# inference with larger input size
 		results = self.model(self.img, size=640, augment=True)
+
+		# inference with test time augmentation
+		#results = self.model(self.img, augment=True)
 
 		# substitute index to object types
 		predictions = results.pred[0]
@@ -45,17 +44,54 @@ class Yolo:
 	
 	#searches for a specific object in the last processed image
 	def searchObject(self, obj):
-        '''
-        
-        '''
 		for i in range(0, len(self.data)):
 			if self.data[i][5] == obj:
 				return True
 		return False
-
+		
+	#returns a list of indices that refer to a desired object
+	def findIndicesForObject(self, obj):
+		arr = []
+		for i in range(0, len(self.data)):
+			if self.data[i][5] == obj:
+				arr += [i]
+		return arr;
+	
+	#returns a coordinate/ 2-item array consisting of the x and y values of the center of the box containing the object of a given index
+	def findCenter(self, index):
+		x = (self.data[index][0] + self.data[index][2])/2
+		x = int(x)
+		y = (self.data[index][1] + self.data[index][3])/2
+		y = int(y)
+		arr = [x, y]
+		return arr
+		
+	#Given two object indices, determine whether index 1 is to the left of index 2
+	def isLeft(self, index1, index2, direction):
+		firstCoord = self.findCenter(index1)
+		secondCoord = self.findCenter(index2)
+		if direction == "left":	
+			return (firstCoord[0] < secondCoord[0])
+		if direction == "right":
+			return (firstCoord[0] > secondCoord[0])
+		if direction == "above":
+			return (firstCoord[1] < secondCoord[1])
+		if direction == "below":
+			return (firstCoord[1] > secondCoord[1])	
+			
+	#------------------Basic Accessors and Mutators
+	def setImage(self, img):
+		self.img = img;
+	
+		
+		
 
 		
 #------------------------------------testing------------------------------
 y = Yolo()
 print(y.recognize_obj())
-print(y.searchObject('fish'))
+print(y.findIndicesForObject('fish'))
+print(y.findCenter(1))
+print(y.findCenter(2))
+print(y.isLeft(1,2))
+print(y.isAbove(0, 1))
