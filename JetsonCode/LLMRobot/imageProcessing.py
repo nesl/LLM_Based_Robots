@@ -3,7 +3,7 @@ import yolov5
 class ImageProcessing:
 	depth_image_path = '/home/pragya/lidar_camera/depth_image.jpg'
 	color_image_path = '/home/pragya/lidar_camera/color_image.jpg'
-	
+    
 	def __init__(self):
         #LIDAR CAMERA INITIALIZATION
         import numpy as np
