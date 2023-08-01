@@ -7,8 +7,8 @@ class LidarCamera:
         self.np = np
         self.rs = rs
         self.Image = Image
-        self.depth_image_path = '/home/lidarimages/depth_image.jpg'
-        self.color_image_path = '/home/lidarimages/color_image.jpg'
+        self.depth_image_path = '/home/lidarimages/depth_image.png'
+        self.color_image_path = '/home/lidarimages/color_image.png'
 
     def get_depth_matrix(self):
         # Create a context object. This object owns the handles to all connected realsense devices
