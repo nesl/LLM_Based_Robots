@@ -82,16 +82,3 @@ class Yolo:
 	#------------------Basic Accessors and Mutators
 	def setImage(self, img):
 		self.img = img;
-	
-		
-		
-
-		
-#------------------------------------testing------------------------------
-y = Yolo()
-print(y.recognize_obj())
-print(y.findIndicesForObject('fish'))
-print(y.findCenter(1))
-print(y.findCenter(2))
-print(y.isLeft(1,2))
-print(y.isAbove(0, 1))
