@@ -52,5 +52,5 @@ class LidarCamera:
         image.save(self.depth_image_path)
 
     def get_color_image(self):
-        image = self.Image.fromarray(self.get_depth_matrix())
+        image = self.Image.fromarray(self.get_color_matrix())
         image.save(self.color_image_path)
