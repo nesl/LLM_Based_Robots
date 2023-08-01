@@ -1,6 +1,4 @@
 class LidarCamera:
-    depth_image_path = '/home/pragya/lidar_camera/depth_image.jpg'
-    color_image_path = '/home/pragya/lidar_camera/color_image.jpg'
 
     def __init__(self):
         import numpy as np
@@ -9,6 +7,8 @@ class LidarCamera:
         self.np = np
         self.rs = rs
         self.Image = Image
+        self.depth_image_path = '/home/lidarimages/depth_image.jpg'
+        self.color_image_path = '/home/lidarimages/color_image.jpg'
 
     def get_depth_matrix(self):
         # Create a context object. This object owns the handles to all connected realsense devices
@@ -49,8 +49,8 @@ class LidarCamera:
 
     def get_depth_image(self):
         image = self.Image.fromarray(self.get_depth_matrix())
-        image.save(depth_image_path)
+        image.save(self.depth_image_path)
 
     def get_color_image(self):
         image = self.Image.fromarray(self.get_depth_matrix())
-        image.save(color_image_path)
+        image.save(self.color_image_path)
