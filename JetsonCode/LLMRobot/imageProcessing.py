@@ -5,12 +5,27 @@ class ImageProcessing:
     color_image_path = '/home/pragya/lidar_camera/color_image.jpg'
 
     def __init__(self):
+        #LIDAR PORTION
         import numpy as np
         import pyrealsense2 as rs
         from PIL import Image 
         self.np = np
         self.rs = rs
         self.Image = Image
+        
+        #YOLO PORTION
+        self.model = yolov5.load('fcakyon/yolov5s-v7.0')
+        # set model parameters
+        self.model.conf = 0.5  # NMS confidence threshold
+        self.model.iou = 0.45  # NMS IoU threshold
+        self.model.agnostic = False  # NMS class-agnostic
+        self.model.multi_label = False  # NMS multiple labels per box
+        self.model.max_det = 500  # maximum number of detections per image
+
+        # img = color_image_path
+        #img =  '/home/pragya/Desktop/livingroom.jpg'
+        self.img = 'https://github.com/ultralytics/yolov5/raw/master/data/images/zidane.jpg'
+        self.data = 0
 
     def get_depth_matrix(self):
         # Create a context object. This object owns the handles to all connected realsense devices
