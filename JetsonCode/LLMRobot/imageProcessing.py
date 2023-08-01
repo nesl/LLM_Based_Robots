@@ -8,16 +8,16 @@ class ImageProcessing:
     
     #------ For LiDar camera -----
     def get_depth_matrix(self):
-        return LidarCamera.get_depth_matrix()
+        return self.LidarCamera.get_depth_matrix()
 
     def get_color_matrix(self):
-        return LidarCamera.get_color_matrix()
+        return self.LidarCamera.get_color_matrix()
 
     def get_depth_image(self):
-        return LidarCamera.get_depth_image()
+        return self.LidarCamera.get_depth_image()
 
     def get_color_image(self):
-        return LidarCamera.get_color_image()
+        return self.LidarCamera.get_color_image()
         
     #----- For Yolo model -----
     #runs the model on an image
