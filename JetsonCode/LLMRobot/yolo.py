@@ -15,9 +15,11 @@ class Yolo:
 		self.model.max_det = 500  # maximum number of detections per image
 
 		# img = color_image_path
-		#img =  '/home/pragya/Desktop/livingroom.jpg'
-		self.img = 'https://github.com/ultralytics/yolov5/raw/master/data/images/zidane.jpg'
-		self.data = 0
+		#self.img = 'https://github.com/ultralytics/yolov5/raw/master/data/images/zidane.jpg'
+		
+		#----- Class Variables ------
+		self.img = '/home/nesl/lidarimages/color_image.png'
+		self.data = None #stores the predictions made by Yolo
 
 	#runs the model on an image
 	def recognize_obj(self):
@@ -44,6 +46,7 @@ class Yolo:
 	
 	#searches for a specific object in the last processed image
 	def searchObject(self, obj):
+		if self.data == None: return False
 		for i in range(0, len(self.data)):
 			if self.data[i][5] == obj:
 				return True
@@ -51,6 +54,7 @@ class Yolo:
 		
 	#returns a list of indices that refer to a desired object
 	def findIndicesForObject(self, obj):
+		if self.data == None: return False
 		arr = []
 		for i in range(0, len(self.data)):
 			if self.data[i][5] == obj:
@@ -59,6 +63,7 @@ class Yolo:
 	
 	#returns a coordinate/ 2-item array consisting of the x and y values of the center of the box containing the object of a given index
 	def findCenter(self, index):
+		if self.data == None: return False
 		x = (self.data[index][0] + self.data[index][2])/2
 		x = int(x)
 		y = (self.data[index][1] + self.data[index][3])/2
@@ -66,8 +71,9 @@ class Yolo:
 		arr = [x, y]
 		return arr
 		
-	#Given two object indices, determine whether index 1 is to the left of index 2
-	def isLeft(self, index1, index2, direction):
+	#Given two object indices, determine whether index 1 is _ compared to index 2
+	def isLocation(self, index1, index2, direction):
+		if self.data == None: return False
 		firstCoord = self.findCenter(index1)
 		secondCoord = self.findCenter(index2)
 		if direction == "left":	
@@ -77,7 +83,17 @@ class Yolo:
 		if direction == "above":
 			return (firstCoord[1] < secondCoord[1])
 		if direction == "below":
-			return (firstCoord[1] > secondCoord[1])	
+			return (firstCoord[1] > secondCoord[1])
+			
+	def listAllObjects(self):
+		objectDict = {}
+		for item in self.data:
+			if item[5] in objectDict:
+				objectDict[item[5]] +=1
+			else:
+				objectDict[item[5]] = 1
+				
+		return objectDict
 			
 	#------------------Basic Accessors and Mutators
 	def setImage(self, img):

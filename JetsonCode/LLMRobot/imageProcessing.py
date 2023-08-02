@@ -21,24 +21,43 @@ class ImageProcessing:
         
     #----- For Yolo model -----
     #runs the model on an image
-    def recognize_obj(self):
+    def recognize_Objects(self):
         return self.Yolo.recognize_obj()
     
     #searches for a specific object in the last processed image
-    def searchObject(self, obj):
+    def search_For_Object(self, obj):
         return self.Yolo.searchObject(obj)
         
     #returns a list of indices that refer to a desired object
-    def findIndicesForObject(self, obj):
+    def find_Indices_For_Object(self, obj):
         return self.Yolo.findIndicesForObject(obj)
     
     #returns a coordinate/ 2-item array consisting of the x and y values of the center of the box containing the object of a given index
-    def findCenter(self, index):
+    def find_Center_of_Object(self, index):
         return self.Yolo.findCenter(index)
         
     #Given two object indices, compare locations
-    def isLocation(self, index1, index2, direction):
+    def determine_Relative_Location(self, index1, index2, direction):
         return self.Yolo.isLocation(index1, index2, direction)
+        
+        
+    #----- Fusion Functions -----
+    def listAllObjects(self):
+    	self.get_color_image()
+    	self.recognize_Objects()
+    	objectDictionary = self.Yolo.listAllObjects()
+    	
+    	for item in objectDictionary:
+    		amount = objectDictionary[item]
+    		print(f"There are {amount} {item}s.")
+    	
+    
+    def findObject(self, obj):
+    	self.get_color_image()
+    	self.recognize_Objects()
+    	if self.search_For_Object(obj) == False: return False
+    	
+    	
             
     #------------------Basic Accessors and Mutators
     def setImage(self, img):
