@@ -70,28 +70,3 @@ class RobotFunctions:
         else:
             print("Command failed with return code:", output.returncode)
             print("Error output:", output.stderr)
-'''
-while True:
-    input_string=input("Next instruction: ")
-    print("command copied")
-    try:
-        # Extract the function name
-        function_name = input_string[:input_string.index('(')]
-
-    	# Extract the arguments
-        if input_string.index('(')+1 != input_string.index(')'):
-            arguments = input_string[input_string.index('(')+1:input_string.index(')')].split(',')
-        else:
-            arguments = ''
-        
-        # Strip whitespace from arguments
-        arguments = [arg.strip() for arg in arguments]
-        # Call the function dynamically
-        functions = RobotFunctions()
-        function = getattr(functions, function_name)
-        function(*arguments)
-	
-    except Exception as e:
-    	# Handle the exception
-    	print("An error occurred: ", e)
-'''

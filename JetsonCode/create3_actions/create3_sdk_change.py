@@ -32,6 +32,8 @@ class Create3(Robot):
 
         # Getters.
         self.ipv4_address = IPv4Addresses()
+        self.position = [0,0]
+        self.heading = 0
 
     def __enter__(self):
         return self
@@ -254,6 +256,22 @@ class Create3(Robot):
         except Exception as e:
             print("Error when BFS:", e)
 
+    def updatePositionalStatus(self, current, target):
+        #update heading
+        if target[1] - current[1] > 0: #moved north
+            continue
+        elif target[1] - current[1] < 0:
+            self.heading += 180
+        elif target[0] - current[0] > 0: #moved east
+            self.heading += 90
+        elif target[0] - current[0] < 0: #moced west
+            self.heading -= 90
+        
+        self.heading %= 360
+        
+        self.position = target
+        #update position
+    
     
     ############# main body of robot navigation action #############
     ### explanation: robot mainly follow the actions in this function when fixed_map_navigate_to function is called
@@ -279,6 +297,8 @@ class Create3(Robot):
                 x = path[i][0]
                 y = path[i][1]
                 await self.navigate_to(x*self.UNIT_LENGTH, y*self.UNIT_LENGTH, heading = None)
+                updatePositionalStatus(self.position, path[i])
+                
 
             # action 4
             await self.play_sound('stop_move')
@@ -291,6 +311,8 @@ class Create3(Robot):
 
     #==================== drive_distance function ====================#
     async def drive_distance(self, meters: Union[float, int] , speed:[float, int]):
+        self[0] += math.cos(heading)
+        self[1] += math.sin(heading)
         centimeters = meters*100
         motor_speed = speed*5
         await super().set_wheel_speeds(motor_speed, motor_speed)
@@ -298,6 +320,8 @@ class Create3(Robot):
 
     #==================== rotate_angle function ====================#
     async def rotate_angle(self, degrees: Union[float, int], rotation_speed: Union[float, int]):
+        self.heading += degrees
+        self.heading %= 360
         motor_speed = rotation_speed*5
         if (degrees >= 0):
             await super().set_left_speed(motor_speed)
