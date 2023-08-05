@@ -1,4 +1,4 @@
-Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request.
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
 
 ###LLMRobot API: Below are all the classes in a package called "LLMRobot"
 {
@@ -19,12 +19,22 @@ navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) pos
 {
 get_color_image(): Takes and saves an RGB image using a Lidar camera
 findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
-	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”, "person"
 listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
 depthToObject(string obj): Returns how far away in meters the object is from the robot.
-	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”, "person"
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square.
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
 }
 }
 
 ###Instruction:
-{Write Python Code to: Make the robot Take an image and search for a book. If there is a book, determine the distance from the camera to the book.}
+{Write Python Code to: Make the robot Find Jeff.}

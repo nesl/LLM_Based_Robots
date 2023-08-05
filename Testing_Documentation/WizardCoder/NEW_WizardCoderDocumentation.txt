@@ -3628,3 +3628,1029 @@ robot.stop()
 
 
 
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates that define Brian's desk: (7,9), (8,9), and (9,9)
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Move backward 2 meters.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+robot.drive_distance(-2, 5)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and call the drive_distance function to make the robot move backward 2 meters at a speed of 5.Time used (unit: s): 14.078646183013916
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates that define Brian's desk: (7,9), (8,9), and (9,9)
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Brian's desk.Time used (unit: s): 7.726954698562622
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates that define Brian's desk: (7,9), (8,9), and (9,9)
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Brian's desk.Time used (unit: s): 6.451922655105591
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of Brian's desk: (7,9), (8,9), and (9,9)
+
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Brian's desk as arguments.Time used (unit: s): 6.719226837158203
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of Brian's desk: (7,9), (8,9), and (9,9)
+
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Brian's desk as arguments.Time used (unit: s): 6.733822822570801
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+Solution:
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+
+We import the CreateRobot class from the LLMRobot package and create an instance of it. We then call the navigate_to_position function of the robot instance, passing in the x and y coordinates of Brian's desk. The robot will then travel to that position and stop.Time used (unit: s): 6.5022759437561035
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+Solution:
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+
+We import the CreateRobot class from the LLMRobot package and create an instance of it. We then call the navigate_to_position function of the robot instance, passing in the x and y coordinates of Brian's desk. The robot will then travel to that position and stop.Time used (unit: s): 6.369398355484009
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Brian's desk.
+- The robot will then drive to the specified position and stop.Time used (unit: s): 10.22926139831543
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Brian's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(7,9)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Brian's desk.
+- The robot will then drive to the specified position and stop.Time used (unit: s): 7.6000940799713135
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Jeff's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(1, 2)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Jeff's desk as arguments.Time used (unit: s): 6.818549156188965
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Go to Jeff's desk.}
+
+```python
+from LLMRobot import CreateRobot
+
+robot = CreateRobot()
+
+robot.navigate_to_position(1, 2)
+```
+
+Explanation:
+- We import the CreateRobot class from the LLMRobot package.
+- We create an instance of the CreateRobot class and assign it to the variable "robot".
+- We call the navigate_to_position function of the robot object and pass in the x and y coordinates of Jeff's desk as arguments.Time used (unit: s): 6.847248554229736
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0).
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Find Jeff's water bottle on Jeff's desk.}
+
+Solution:
+
+```python
+from LLMRobot import ImageProcessing, CreateRobot
+
+# Create an instance of the robot
+robot = CreateRobot()
+
+# Create an instance of the image processing class
+image_processing = ImageProcessing()
+
+# Navigate to Jeff's desk
+robot.navigate_to_position(1, 2)
+
+# Find Jeff's water bottle
+if image_processing.findObject("water bottle"):
+    print("Jeff's water bottle is in front of the robot.")
+else:
+    print("Jeff's water bottle is not in front of the robot.")
+```
+
+Explanation:
+
+We first import the necessary classes from the LLMRobot package. We then create an instance of the robot and the image processing class. We navigate the robot to Jeff's desk using the navigate_to_position() function. We then use the findObject() function from the image processing class to search for the "water bottle" object in front of the robot. If the object is found, we print a message saying that it is in front of the robot. If it is not found, we print a message saying that it is not in front of the robot.Time used (unit: s): 30.741258144378662
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The robot starts off in the corner at position (0,0). The best place to search for someone's objects is their desk.
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Find Jeff's water bottle.}
+
+Solution:
+
+```python
+from LLMRobot import ImageProcessing, CreateRobot
+
+# Create an instance of the robot
+robot = CreateRobot()
+
+# Create an instance of the image processing class
+image_processing = ImageProcessing()
+
+# Navigate to Jeff's desk
+robot.navigate_to_position(1, 2)
+
+# Search for Jeff's water bottle
+if image_processing.findObject("water bottle"):
+    print("Jeff's water bottle is in front of the robot.")
+else:
+    print("Jeff's water bottle is not in front of the robot.")
+```
+
+Explanation:
+
+We first import the necessary classes from the LLMRobot package. We then create an instance of the robot and the image processing class. We navigate the robot to Jeff's desk using the navigate_to_position function. We then use the findObject function from the image processing class to search for Jeff's water bottle. If the function returns true, it means that Jeff's water bottle is in front of the robot. Otherwise, it means that Jeff's water bottle is not in front of the robot.Time used (unit: s): 14.813682556152344
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square. The best place to search for someone's objects is their desk.
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Find Jeff's water bottle.}
+
+Solution:
+
+```python
+from LLMRobot import ImageProcessing, CreateRobot
+
+# Create an instance of the robot
+robot = CreateRobot()
+
+# Create an instance of the image processing class
+image_processing = ImageProcessing()
+
+# Navigate to Jeff's desk
+robot.navigate_to_position(1, 2)
+
+# Search for Jeff's water bottle
+if image_processing.findObject("water bottle"):
+    print("Jeff's water bottle is in front of the robot.")
+else:
+    print("Jeff's water bottle is not in front of the robot.")
+```
+
+Explanation:
+
+We first import the necessary classes from the LLMRobot package. We then create an instance of the robot and the image processing class. We navigate the robot to Jeff's desk using the navigate_to_position function. We then use the findObject function from the image processing class to search for Jeff's water bottle. If the function returns true, it means that Jeff's water bottle is in front of the robot. Otherwise, it means that Jeff's water bottle is not in front of the robot.Time used (unit: s): 15.200692176818848
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square.
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Find Jeff's water bottle.}
+
+Solution:
+
+```python
+from LLMRobot import ImageProcessing, CreateRobot
+
+# Create an instance of the robot
+robot = CreateRobot()
+
+# Create an instance of the image processing class
+image_processing = ImageProcessing()
+
+# Navigate to Jeff's desk
+robot.navigate_to_position(1, 2)
+
+# Find Jeff's water bottle
+if image_processing.findObject("water bottle"):
+    print("Jeff's water bottle is in front of the robot.")
+else:
+    print("Jeff's water bottle is not in front of the robot.")
+```
+
+Explanation:
+
+We first import the necessary classes from the LLMRobot package. We then create an instance of the robot and the image processing class. We navigate the robot to Jeff's desk using the navigate_to_position function. We then use the findObject function from the image processing class to search for the water bottle class. If the water bottle is detected, we print a message saying that it is in front of the robot. Otherwise, we print a message saying that it is not in front of the robot.Time used (unit: s): 14.701721429824829
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square.
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Find Jeff's water bottle.}
+
+Solution:
+
+```python
+from LLMRobot import ImageProcessing, CreateRobot
+
+# Create an instance of the robot
+robot = CreateRobot()
+
+# Create an instance of the image processing class
+image_processing = ImageProcessing()
+
+# Navigate to Jeff's desk
+robot.navigate_to_position(1, 2)
+
+# Find Jeff's water bottle
+if image_processing.findObject("water bottle"):
+    print("Jeff's water bottle is in front of the robot.")
+else:
+    print("Jeff's water bottle is not in front of the robot.")
+```
+
+Explanation:
+
+We first import the necessary classes from the LLMRobot package. We then create an instance of the robot and the image processing class. We navigate the robot to Jeff's desk using the navigate_to_position function. We then use the findObject function from the image processing class to search for Jeff's water bottle. If the function returns true, it means that Jeff's water bottle is in front of the robot. Otherwise, it means that Jeff's water bottle is not in front of the robot.Time used (unit: s): 30.438347101211548
+
+
+
+------------------------------------------new prompt and output------------------------------------------
+Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
+
+###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+{
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+{
+drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
+	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
+	Argument 2: Speed from 1 to 10
+rotate_angle(float32 degrees, float32 rotation_speed): Rotates robot in place from current heading.
+	Argument 1: Degrees to turn robot. Negative angle to turn left/counterclockwise. Positive angle to turn right/clockwise.
+	Argument 2: The speed at which the robot will rotate (any real number in the range of 1 to 10).
+navigate_to_position(float32 xp, float32 yp): The robot will go to the (x,y) position specified.
+	Argument 1: The x-position of the desired final location, according to the robot’s coordinate system.
+	Argument 2: The y-position of the desired final location, according to the robot’s coordinate system.
+}
+
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+{
+get_color_image(): Takes and saves an RGB image using a Lidar camera
+findObject(string obj): Searches for a specified object class in front of the robot. Returns true if the object class is detected, false otherwise.
+	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”, "person"
+listAllObjects(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
+depthToObject(string obj): Returns how far away in meters the object is from the robot.
+	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”, "person"
+}
+}
+
+###Position Contextualization
+{
+The room is a 10x10 square.
+Coordinates of objects:
+{
+Brian's desk: (7,9), (8,9), and (9,9)
+Jeff's desk: (1,2), (1,3), and (1, 4)
+}
+}
+
+###Instruction:
+{Write Python Code to: Make the robot Find Jeff.}
+
+Solution:
+
+```python
+from LLMRobot import ImageProcessing, CreateRobot
+
+# Create an instance of the robot
+robot = CreateRobot()
+
+# Create an instance of the image processing class
+image_processing = ImageProcessing()
+
+# Navigate to Jeff's desk
+robot.navigate_to_position(1, 2)
+
+# Wait for 5 seconds
+time.sleep(5)
+
+# Check if Jeff is in front of the robot
+if image_processing.findObject("person"):
+    print("Jeff is in front of the robot")
+else:
+    print("Jeff is not in front of the robot")
+```
+
+Explanation:
+
+We first import the necessary classes from the LLMRobot package. We then create an instance of the robot and the image processing class. We navigate the robot to Jeff's desk using the navigate_to_position() function. We then wait for 5 seconds using the time.sleep() function. Finally, we check if Jeff is in front of the robot using the findObject() function from the image processing class. If Jeff is in front of the robot, we print a message saying so. Otherwise, we print a message saying Jeff is not in front of the robot.Time used (unit: s): 33.63755130767822
+
+
+
