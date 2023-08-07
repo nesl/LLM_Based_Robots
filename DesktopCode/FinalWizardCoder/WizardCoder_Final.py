@@ -5,6 +5,7 @@ import os
 import pyinotify
 import paramiko
 import torch
+import textwrap
 
 #-----------------------------------LOAD TOKENIZER AND MODEL----------------------------------------
 tokenizer = AutoTokenizer.from_pretrained("WizardLM/WizardCoder-15B-V1.0")
@@ -62,6 +63,18 @@ def write_to_comp():
     finally:
         ssh.close()
 
+def code_refinement(unindented_code):
+    indented_code = textwrap.indent(unindented_code, "  ") 
+    func_declaration = '''
+    @event(robot.when_play)
+    async def play(robot):
+    '''
+    func_call = '''
+    robot.play()
+    '''
+    result_code = func_declaration + '\n' + indented_code + '\n' + func_call
+    return result_code
+
 def generate_code():
     '''
     First, it creates the prompt by appending the user given input and the APIs of all the different hardware systems.
@@ -116,7 +129,8 @@ def generate_code():
                     continue
                 first_index += len("```python")
                 last_index = item[first_index:].find("```") + first_index
-                code_file.write(str(item[first_index:last_index]) + '\n')
+                refined_code = code_refinement(str(item[first_index:last_index]))
+                code_file.write(refined_code + '\n')
     except Exception as e:
         print("Error when write file LLM_genereated_code_test.py:", str(e))
         exit(e)
