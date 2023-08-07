@@ -256,11 +256,13 @@ class Create3(Robot):
         except Exception as e:
             print("Error when BFS:", e)
 
-    def updatePositionalStatus(self, current, target):
+    
+    #==================== update_positional_status function ====================#
+    def update_positional_status(self, current, target):
         #update heading
         if target[1] - current[1] > 0: #moved north
-            continue
-        elif target[1] - current[1] < 0:
+            return
+        elif target[1] - current[1] < 0: #moved south
             self.heading += 180
         elif target[0] - current[0] > 0: #moved east
             self.heading += 90
@@ -272,6 +274,25 @@ class Create3(Robot):
         self.position = target
         #update position
     
+    #==================== face_to function ====================#
+    def face_to(self, target_dir):
+        # map possible directions
+        if target_dir.lower() == 'north':
+            target_dir = 0
+        elif target_dir.lower() == 'south':
+            target_dir = 180
+        elif target_dir.lower() == 'east':
+            target_dir = 90
+        else:
+            target_dir = 270
+        
+        # calculate angles to rotate
+        angles_to_rotate = target_dir - self.heading
+        self.rotate_angle(angles_to_rotate)
+
+        # update self.heading
+        self.heading += target_dir
+        self.heading %= 360
     
     ############# main body of robot navigation action #############
     ### explanation: robot mainly follow the actions in this function when fixed_map_navigate_to function is called
