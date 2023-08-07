@@ -32,8 +32,34 @@ class Create3(Robot):
 
         # Getters.
         self.ipv4_address = IPv4Addresses()
-        self.position = [0,0]
-        self.heading = 0
+        #self.position = [0,0]
+        #self.heading = 0
+
+        #update position and heading -- read from a text file containing three numbers -- first two for position and third for heading
+        output = readData('odometryData.txt') #may need to update file name later
+        self.position[0] = int(output[0])
+        self.position[1] = int(output[1])
+        self.heading = int(output[2])
+    
+
+    #file manipulation functions
+    def clearData(file_path):   #makes text file empty -- necessary for overriding contents
+        with open(file_path, 'w') as file:
+            file.write('')
+
+    def writeData(file_path, data):  #adds contents to text file via appending
+        with open(file_path, 'a') as file:
+            file.write(data)
+
+    def readData(file_path):  #stores every line in the text file as an element in a list
+        with open(file_path, 'r') as file:
+            data = file.readlines()
+            return data
+            
+    def updateOdometry():
+        data = [self.position[0], self.position[1], self.heading]
+        for i in data:
+            writeData('odometryData.txt', str(i) + '\n')
 
     def __enter__(self):
         return self
