@@ -32,7 +32,7 @@ class Create3(Robot):
 
         # Getters.
         self.ipv4_address = IPv4Addresses()
-        #self.position = [0,0]
+        self.position = [0,0]
         #self.heading = 0
 
         #update position and heading -- read from a text file containing three numbers -- first two for position and third for heading
@@ -293,33 +293,52 @@ class Create3(Robot):
             self.heading += 180
         elif target[0] - current[0] > 0: #moved east
             self.heading += 90
-        elif target[0] - current[0] < 0: #moced west
+        elif target[0] - current[0] < 0: #moved west
             self.heading -= 90
         
         self.heading %= 360
+        if self.heading < 0:
+            self.heading += 360
         
         self.position = target
         #update position
     
     #==================== face_to function ====================#
-    def face_to(self, target_dir):
+    def face_coordinate(self, float32 xp, float32 yp):
         # map possible directions
-        if target_dir.lower() == 'north':
-            target_dir = 0
-        elif target_dir.lower() == 'south':
-            target_dir = 180
-        elif target_dir.lower() == 'east':
-            target_dir = 90
+        relative_x = xp - self.position[0]
+        relative_y = yp - self.position[1]
+        
+        if relative_x == 0 && relative_y == 0: return
+        
+        angle_to_rotate = 0
+        if relative_x == 0:
+            if relative_y < 0:
+                angle_to_rotate = 180
         else:
-            target_dir = 270
+            angle_to_rotate = math.atan(relative_y / relative_x)
+            
+            if relative_x < 0:
+                angle_to_rotate += 180
+            elif relative_y < 0 && relative_x > 0:
+                angle_to_rotate += 360
+            
+            angle_to_rotate -= 90
+                        
+            if angle_to_rotate < 0:
+                angle_to_rotate += 360
+            
+            angle_to_rotate = 360 - angle_to_rotate
         
         # calculate angles to rotate
-        angles_to_rotate = target_dir - self.heading
-        self.rotate_angle(angles_to_rotate)
+        angle_to_rotate = self.heading - angle_to_rotate
+        self.rotate_angle(angle_to_rotate)
 
         # update self.heading
-        self.heading += target_dir
+        self.heading += angle_to_rotate
         self.heading %= 360
+        if self.heading < 0:
+            self.heading += 360
     
     ############# main body of robot navigation action #############
     ### explanation: robot mainly follow the actions in this function when fixed_map_navigate_to function is called
@@ -359,8 +378,8 @@ class Create3(Robot):
 
     #==================== drive_distance function ====================#
     async def drive_distance(self, meters: Union[float, int] , speed:[float, int]):
-        self.position[0] += math.cos(heading)
-        self.position[1] += math.sin(heading)
+        self.position[0] += meters * math.cos(heading)
+        self.position[1] += meters * math.sin(heading)
         centimeters = meters*100
         motor_speed = speed*5
         await super().set_wheel_speeds(motor_speed, motor_speed)
@@ -370,6 +389,8 @@ class Create3(Robot):
     async def rotate_angle(self, degrees: Union[float, int], rotation_speed: Union[float, int]):
         self.heading += degrees
         self.heading %= 360
+        if self.heading < 0:
+            self.heading += 360
         motor_speed = rotation_speed*5
         if (degrees >= 0):
             await super().set_left_speed(motor_speed)
