@@ -57,6 +57,7 @@ class Create3(Robot):
             return data
             
     def updateOdometry():
+        clearData('odometryData.txt')
         data = [self.position[0], self.position[1], self.heading]
         for i in data:
             writeData('odometryData.txt', str(i) + '\n')
