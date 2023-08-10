@@ -25,7 +25,18 @@ class Create3(Robot):
     DOCK_RESULT_DOCKED   = 1
     
     DIR = [0,1,0,-1,0]
-    UNIT_LENGTH = 20
+    UNIT_LENGTH = 12
+    ROOM_MAP = [['E','E','E','E','E','E','E','E'],
+                ['E','E','E','E','E','E','E','E'],
+                ['E','E','E','E','E','B','E','E'],
+                ['E','E','E','E','E','B','E','E'],
+                ['B','B','E','E','E','E','E','E'],
+                ['E','E','E','B','B','E','E','E'],
+                ['E','E','E','B','B','E','B','E'],
+                ['E','E','E','E','E','E','B','E'],
+                ['E','E','E','E','E','E','B','E'],
+                ['E','E','E','E','E','E','E','E']
+                ]
 
     def __init__(self, backend: Backend):
         super().__init__(backend=backend)
@@ -304,12 +315,13 @@ class Create3(Robot):
         #update position
     
     #==================== face_to function ====================#
-    def face_coordinate(self, float32 xp, float32 yp):
+    def face_coordinate(self, xp: float, yp: float):
         # map possible directions
         relative_x = xp - self.position[0]
         relative_y = yp - self.position[1]
         
-        if relative_x == 0 && relative_y == 0: return
+        if relative_x == 0 and relative_y == 0: 
+            return
         
         angle_to_rotate = 0
         if relative_x == 0:
@@ -320,7 +332,7 @@ class Create3(Robot):
             
             if relative_x < 0:
                 angle_to_rotate += 180
-            elif relative_y < 0 && relative_x > 0:
+            elif relative_y < 0 and relative_x > 0:
                 angle_to_rotate += 360
             
             angle_to_rotate -= 90
@@ -348,12 +360,13 @@ class Create3(Robot):
     # action 4: Play sound to show the robot finishes moving
     # action 5: Print "Navigation completed!"
 
-    async def fixed_map_navigate_to(self, room_map, target):
+    # async def fixed_map_navigate_to(self, room_map, target):
+    async def fixed_map_navigate_to(self, target):
         try:
             # action 1
             cur_pos = await self.get_position()
             start = [cur_pos.x, cur_pos.y]
-            path = self.BFS(room_map, start, target)
+            path = self.BFS(self.ROOM_MAP, start, target)
             print ("Path: ", path)
 
             # action 2
@@ -364,7 +377,7 @@ class Create3(Robot):
                 x = path[i][0]
                 y = path[i][1]
                 await self.navigate_to(x*self.UNIT_LENGTH, y*self.UNIT_LENGTH, heading = None)
-                updatePositionalStatus(self.position, path[i])
+                self.update_positional_status(self.position, path[i])
                 
 
             # action 4
@@ -378,10 +391,10 @@ class Create3(Robot):
 
     #==================== drive_distance function ====================#
     async def drive_distance(self, meters: Union[float, int] , speed:[float, int]):
-        self.position[0] += meters * math.cos(heading)
-        self.position[1] += meters * math.sin(heading)
-        self.position[0] /= UNIT_LENGTH
-        self.position[1] /= UNIT_LENGTH
+        self.position[0] += meters * math.cos(self.heading)
+        self.position[1] += meters * math.sin(self.heading)
+        self.position[0] /= self.UNIT_LENGTH
+        self.position[1] /= self.UNIT_LENGTH
         centimeters = meters*100
         motor_speed = speed*5
         await super().set_wheel_speeds(motor_speed, motor_speed)
