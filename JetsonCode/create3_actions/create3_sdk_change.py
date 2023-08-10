@@ -393,8 +393,10 @@ class Create3(Robot):
 
     #==================== drive_distance function ====================#
     async def drive_distance(self, meters: Union[float, int] , speed:[float, int]):
-        self.position[0] += meters * math.cos(self.heading)
-        self.position[1] += meters * math.sin(self.heading)
+        self.position[0] += meters * math.cos(heading)
+        self.position[1] += meters * math.sin(heading)
+        self.position[0] /= UNIT_LENGTH
+        self.position[1] /= UNIT_LENGTH
         centimeters = meters*100
         motor_speed = speed*5
         await super().set_wheel_speeds(motor_speed, motor_speed)

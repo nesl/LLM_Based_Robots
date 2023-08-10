@@ -1,0 +1,7 @@
+Drive 2 meters forward.
+Turn 90 degrees to the right and then drive forward 1 meter.
+Make the robot rotate 360 degrees in a circle.
+Take a picture and list all the objects in the image.
+Tell me all the objects on Jeff's desk.
+Is there a TV in the image?
+Take an image and search for a book. If there is a book, determine the distance from the camera to the book.

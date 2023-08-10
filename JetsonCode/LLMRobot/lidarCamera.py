@@ -68,4 +68,25 @@ class LidarCamera:
     def get_color_image(self):
         image = self.Image.fromarray(self.get_color_matrix())
         image.save(self.color_image_path)
+        
+    def determine_depth(self, center, upperLeft, upperRight):
+        # Create a context object. This object owns the handles to all connected realsense devices
+        pipeline = self.rs.pipeline()
+        pipeline.start()
 
+        try:
+            while True:
+            # Create a pipeline object. This object configures the streaming camera and owns it's handle
+                for i in range(3):
+                    frames = pipeline.wait_for_frames()
+                frames = pipeline.wait_for_frames()
+                depth = frames.get_depth_frame()
+                if not depth:
+                    continue
+                depth_data = depth.as_frame().get_data()
+                np_image = self.np.asanyarray(depth_data)
+                np_image = cv2.applyColorMap(cv2.convertScaleAbs(np_image, alpha=0.03), cv2.COLORMAP_JET) #added color overlay
+                return np_image
+                break
+        finally:
+            pipeline.stop()

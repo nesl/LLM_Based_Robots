@@ -14,10 +14,7 @@ class ImageProcessing:
         return self.LidarCamera.get_color_matrix()
 
     def get_depth_image(self):
-        return self.LidarCamera.get_depth_image()
-
-    def get_color_image(self):
-        return self.LidarCamera.get_color_image()
+        self.LidarCamera.get_depth_image()
         
     #----- For Yolo model -----
     #runs the model on an image
@@ -25,7 +22,7 @@ class ImageProcessing:
         return self.Yolo.recognize_obj()
     
     #searches for a specific object in the last processed image
-    def search_For_Object(self, obj):
+    def findObject(self, obj):
         return self.Yolo.searchObject(obj)
         
     #returns a list of indices that refer to a desired object
@@ -42,23 +39,17 @@ class ImageProcessing:
         
         
     #----- Fusion Functions -----
-    def listAllObjects(self):
-    	self.get_color_image()
-    	self.recognize_Objects()
-    	objectDictionary = self.Yolo.listAllObjects()
-    	
-    	for item in objectDictionary:
-    		amount = objectDictionary[item]
-    		print(f"There are {amount} {item}s.")
-    	
-    
-    def findObject(self, obj):
-    	self.get_color_image()
-    	self.recognize_Objects()
-    	if self.search_For_Object(obj) == False: return False
-    	
-    	
-            
+
+    def get_color_image(self):
+        self.LidarCamera.get_color_image()
+        self.Yolo.recognize_obj()
+        
+    def depthToObject(self, obj):
+        index = self.Yolo.findIndicesForObject(obj)[0]
+        center = self.Yolo.findCenter(index)
+        bounds = self.Yolo.returnBounds(index)
+        return self.LidarCamera.determine_depth(center, bounds[0], bounds[1])
+
     #------------------Basic Accessors and Mutators
     def setImage(self, img):
         self.img = img;
