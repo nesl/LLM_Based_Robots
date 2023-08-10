@@ -64,7 +64,25 @@ def write_to_comp():
         ssh.close()
 
 def code_refinement(unindented_code):
-    indented_code = textwrap.indent(unindented_code, "  ") 
+    funcs_to_await = ["robot.drive_distance", "robot.rotate_angle", "robot.navigate_to_position", "robot.face_coordinate"]
+
+    for func in funcs_to_await:
+        new_func = "await " + func
+        unindented_code.replace(func, new_func)
+
+    lines = unindented_code.splitlines()
+    filtered_lines = [line for line in lines if "import" not in line]
+    unindented_code = "\n".join(filtered_lines)
+
+    indented_code = textwrap.indent(unindented_code, "  ")
+    
+    imports ='''
+    from LLMRobot import ImageProcessing
+    from irobot_edu_sdk.backend.bluetooth import Bluetooth
+    from irobot_edu_sdk.robots import event, Create3
+    from irobot_edu_sdk.utils import stop_program
+    '''
+    
     func_declaration = '''
     @event(robot.when_play)
     async def play(robot):
@@ -72,7 +90,7 @@ def code_refinement(unindented_code):
     func_call = '''
     robot.play()
     '''
-    result_code = func_declaration + '\n' + indented_code + '\n' + func_call
+    result_code = imports + '\n' + func_declaration + '\n' + indented_code + '\n' + func_call
     return result_code
 
 def generate_code():
@@ -97,8 +115,7 @@ def generate_code():
     #Remove new line characters from userTask string
     userTask = userTask.replace("\n", "")
     #Replace holder for user task with actual user task
-    target_text = '<USER TASK>'
-    prompt = prompt.replace(target_text, userTask)
+    prompt = prompt.replace('<USER TASK>', userTask)
     
     start_time = time.time()
     # tokenize prompt and model generate
