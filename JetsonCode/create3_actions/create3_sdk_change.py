@@ -37,9 +37,6 @@ class Create3(Robot):
                 ['E','E','E','E','E','E','B','E'],
                 ['E','E','E','E','E','E','E','E']
                 ]
-    {"Jeff's table": [[1,5], [2,5],[3,5]],
-     "Bob's table": [[7,5], [6,6], [7,6], [8,6]],
-     "Conference table": [[3,0], [4,0], [4,1]]}
 
     def __init__(self, backend: Backend):
         super().__init__(backend=backend)
@@ -363,12 +360,13 @@ class Create3(Robot):
     # action 4: Play sound to show the robot finishes moving
     # action 5: Print "Navigation completed!"
 
-    async def fixed_map_navigate_to(self, room_map, target):
+    # async def fixed_map_navigate_to(self, room_map, target):
+    async def fixed_map_navigate_to(self, target):
         try:
             # action 1
             cur_pos = await self.get_position()
             start = [cur_pos.x, cur_pos.y]
-            path = self.BFS(room_map, start, target)
+            path = self.BFS(self.ROOM_MAP, start, target)
             print ("Path: ", path)
 
             # action 2
@@ -395,8 +393,8 @@ class Create3(Robot):
     async def drive_distance(self, meters: Union[float, int] , speed:[float, int]):
         self.position[0] += meters * math.cos(self.heading)
         self.position[1] += meters * math.sin(self.heading)
-        self.position[0] /= UNIT_LENGTH
-        self.position[1] /= UNIT_LENGTH
+        self.position[0] /= self.UNIT_LENGTH
+        self.position[1] /= self.UNIT_LENGTH
         centimeters = meters*100
         motor_speed = speed*5
         await super().set_wheel_speeds(motor_speed, motor_speed)
