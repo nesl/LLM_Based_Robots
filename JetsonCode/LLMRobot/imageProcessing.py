@@ -45,10 +45,11 @@ class ImageProcessing:
         self.Yolo.recognize_obj()
         
     def depthToObject(self, obj):
-        index = self.Yolo.findIndicesForObject(obj)[0]
-        center = self.Yolo.findCenter(index)
-        bounds = self.Yolo.returnBounds(index)
-        return self.LidarCamera.determine_depth(center, bounds[0], bounds[1])
+        #index = self.Yolo.findIndicesForObject(obj)[0]
+        #center = self.Yolo.findCenter(index)
+        #bounds = self.Yolo.returnBounds(index)
+        #return self.LidarCamera.determine_depth(center, bounds[0], bounds[1])
+        return 1
 
     #------------------Basic Accessors and Mutators
     def setImage(self, img):
