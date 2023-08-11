@@ -2,7 +2,7 @@ Below is an instruction that describes a task. Write Python code, using only the
 {
 ###LLMRobot API: Below are all the classes in a package called "LLMRobot"
 {
-###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+###Robot API: Below are all the functions that control a robot from a class called "Create3" in a package called "LLMRobot".
 {
 drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
 	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.

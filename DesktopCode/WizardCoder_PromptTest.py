@@ -14,8 +14,8 @@ model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", to
 print("Model Loaded")
 
 #Path to the necessary files
-prompt_file_path = '/home/pragya/LLMCode/prompt.txt'
-code_file_path = '/home/pragya/LLMCode/WizardCoderDocumentation.txt'
+prompt_file_path = '/home/pragya/LLMCode/WizardCoderPrompt.txt'
+documentation_file_path = '/home/pragya/LLMCode/WizardCoderDocumentation.txt'
 
 #the directory that the EventHandler should monitor for changes
 dir_to_watch = os.path.abspath('/home/pragya/LLMCode')
@@ -41,18 +41,16 @@ class EventHandler(pyinotify.ProcessEvent):
 
 def generate_code(prompt_file_path):
     '''
-    First, it creates the prompt by appending the user given input and the APIs of all the different hardware systems.
-    Then it passes it into the LLM to generate an output. Upon receiving the output, it writes only the code portion of the output into a .py file.
+    First, it creates the prompt by reading from the prompt file.
+    Then it passes it into the LLM to generate an output. Upon receiving the output, it writes the output and the amount of time taken to produce the output to a documentation file.
     '''
     
     print("Running model.")
     # read from prompt file
     try:
-        with open ('/home/pragya/LLMCode/prompt.txt', 'r') as prompt_file:
+        with open (prompt_file_path, 'r') as prompt_file:
             prompt = prompt_file.read()
             
-        #with open ('/home/pragya/LLMCode/create3api.txt', 'r') as prompt_file:
-         #   prompt += prompt_file.read()
     except Exception as e:
         print("Error when read from file prompt.txt:", str(e))
         exit(e)
@@ -76,14 +74,14 @@ def generate_code(prompt_file_path):
     end_time = time.time()
     # save to code file
     try:
-        with open(code_file_path, 'a', encoding='UTF-8') as code_file:
-            code_file.write('------------------------------------------new prompt and output------------------------------------------\n')
+        with open(documentation_file_path, 'a', encoding='UTF-8') as documentation_file:
+            documentation_file.write('------------------------------------------new prompt and output------------------------------------------\n')
             for item in code:
                 print(item)
-                code_file.write(item)
-            code_file.write("Time used (unit: s): ")
-            code_file.write(str(end_time - start_time))
-            code_file.write("\n\n\n\n")
+                documentation_file.write(item)
+            documentation_file.write("Time used (unit: s): ")
+            documentation_file.write(str(end_time - start_time))
+            documentation_file.write("\n\n\n\n")
             print("Finish recording results")
     except Exception as e:
         print("Error when write file LLM_genereated_code_test.py:", str(e))
@@ -94,10 +92,8 @@ def generate_code(prompt_file_path):
 #----------------------------- MAIN LOOPED FUNCTION ------------------
 def central_loop(prompt_file_path):
     '''
-    First, it runs the LLM with the prompt given and writes the Python code portion of the output to a file using the generate_code function.
-    Then it sends the generated Python code file to the Jetson using the write_to_comp function.
+    Runs the LLM with the prompt given and writes the Python code portion of the output to a documentation file using the generate_code function.
     '''
-
     generate_code(prompt_file_path)
 
 
@@ -109,10 +105,6 @@ watcher_manager.add_watch(dir_to_watch, watch_mask)
 
 # Create the notifier and associate it with the watcher and event handler
 notifier = pyinotify.Notifier(watcher_manager, EventHandler())
-
-# run once
-#central_loop(prompt_file_path)
-
 
 # Start monitoring for file changes
 try:

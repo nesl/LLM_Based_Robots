@@ -64,6 +64,9 @@ def write_to_comp():
         ssh.close()
 
 def code_refinement(unindented_code):
+    '''
+    Takes the code output by the LLM and edits it to the necessary format it must be according to the Create 3 SDK.
+    '''
     funcs_to_await = ["robot.drive_distance", "robot.rotate_angle", "robot.navigate_to_position", "robot.face_coordinate"]
 
     for func in funcs_to_await:
@@ -73,7 +76,8 @@ def code_refinement(unindented_code):
     lines = unindented_code.splitlines()
     filtered_lines = [line for line in lines if "import" not in line]
     unindented_code = "\n".join(filtered_lines)
-
+    unindented_code.replace("Create3", "Create3(Bluetooth())")
+    
     indented_code = textwrap.indent(unindented_code, "  ")
     
     imports ='''
@@ -95,7 +99,7 @@ def code_refinement(unindented_code):
 
 def generate_code():
     '''
-    First, it creates the prompt by appending the user given input and the APIs of all the different hardware systems.
+    First, it creates the prompt by appending inserting the user input into the general prompt file with the APIs and other descriptions.
     Then it passes it into the LLM to generate an output. Upon receiving the output, it writes only the code portion of the output into a .py file.
     '''
     
@@ -162,7 +166,7 @@ def central_loop():
     '''
 
     generate_code()
-    #write_to_comp()
+    write_to_comp()
 
 
 #----------------------------- ACTIVATING LOOP ------------------
@@ -173,7 +177,6 @@ watcher_manager.add_watch(dir_to_watch, watch_mask)
 
 # Create the notifier and associate it with the watcher and event handler
 notifier = pyinotify.Notifier(watcher_manager, EventHandler())
-
 
 # Start monitoring for file changes
 try:
