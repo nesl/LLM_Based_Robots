@@ -1,4 +1,4 @@
-class RobotFunctions:
+class CreateRobot:
     
     script_file = '/home/nesl/RobotROS2.sh'
 

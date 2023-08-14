@@ -49,7 +49,7 @@ def write_to_comp():
     username = 'nesl'
     password = 'nesl'
 
-    local_path = '/home/pragya/LLMCode/LLM_generated_code.py'
+    local_path = code_file_path
     remote_path = '/home/nesl/desktopTransferredCode.py'
 
     ssh = paramiko.SSHClient()
@@ -62,40 +62,6 @@ def write_to_comp():
         print("File transferred successfully")
     finally:
         ssh.close()
-
-def code_refinement(unindented_code):
-    '''
-    Takes the code output by the LLM and edits it to the necessary format it must be according to the Create 3 SDK.
-    '''
-    funcs_to_await = ["robot.drive_distance", "robot.rotate_angle", "robot.navigate_to_position", "robot.face_coordinate"]
-
-    for func in funcs_to_await:
-        new_func = "await " + func
-        unindented_code.replace(func, new_func)
-
-    lines = unindented_code.splitlines()
-    filtered_lines = [line for line in lines if "import" not in line]
-    unindented_code = "\n".join(filtered_lines)
-    unindented_code.replace("Create3", "Create3(Bluetooth())")
-    
-    indented_code = textwrap.indent(unindented_code, "  ")
-    
-    imports ='''
-    from LLMRobot import ImageProcessing
-    from irobot_edu_sdk.backend.bluetooth import Bluetooth
-    from irobot_edu_sdk.robots import event, Create3
-    from irobot_edu_sdk.utils import stop_program
-    '''
-    
-    func_declaration = '''
-    @event(robot.when_play)
-    async def play(robot):
-    '''
-    func_call = '''
-    robot.play()
-    '''
-    result_code = imports + '\n' + func_declaration + '\n' + indented_code + '\n' + func_call
-    return result_code
 
 def generate_code():
     '''
@@ -150,8 +116,7 @@ def generate_code():
                     continue
                 first_index += len("```python")
                 last_index = item[first_index:].find("```") + first_index
-                refined_code = code_refinement(str(item[first_index:last_index]))
-                code_file.write(refined_code + '\n')
+                code_file.write(str(item[first_index:last_index]) + '\n')
     except Exception as e:
         print("Error when write file LLM_genereated_code_test.py:", str(e))
         exit(e)
