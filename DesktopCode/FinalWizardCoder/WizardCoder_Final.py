@@ -133,14 +133,7 @@ def central_loop():
     write_to_comp()
 
 
-#----------------------------- ACTIVATING LOOP ------------------
-# Add the directory to the watcher
-# watch_mask = pyinotify.IN_MODIFY | pyinotify.IN_CLOSE_WRITE
-watch_mask = pyinotify.IN_CLOSE_WRITE
-watcher_manager.add_watch(dir_to_watch, watch_mask)
-
-# Create the notifier and associate it with the watcher and event handler
-notifier = pyinotify.Notifier(watcher_manager, EventHandler())
+#----------------------------- MODEL BOOT UP ------------------
 
 def initialModelBootUp():
     bootPrompts_path = mainFolder + 'BootUpPrompts.txt'
@@ -159,6 +152,15 @@ def initialModelBootUp():
     print("BootUp Files successfully run.")
         
 initialModelBootUp()
+
+#----------------------------- ACTIVATING LOOP ------------------
+# Add the directory to the watcher
+# watch_mask = pyinotify.IN_MODIFY | pyinotify.IN_CLOSE_WRITE
+watch_mask = pyinotify.IN_CLOSE_WRITE
+watcher_manager.add_watch(dir_to_watch, watch_mask)
+
+# Create the notifier and associate it with the watcher and event handler
+notifier = pyinotify.Notifier(watcher_manager, EventHandler())
 
 # Start monitoring for file changes
 try:
