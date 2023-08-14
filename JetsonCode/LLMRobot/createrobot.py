@@ -28,8 +28,10 @@ class CreateRobot:
                 ['E','E','E','E','E','E','B','E'],
                 ['E','E','E','E','E','E','E','E']
                 ]
-
-
+                
+    def stop(self):
+        continue
+    
     def dock(self):
         command='dock'
         output=self.subprocess.run([self.script_file, command], capture_output=True, text=True)
