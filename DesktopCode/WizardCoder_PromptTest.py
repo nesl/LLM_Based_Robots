@@ -48,7 +48,7 @@ def generate_code(prompt_file_path):
     print("Running model.")
     # read from prompt file
     try:
-        with open (prompt_file_path, 'r') as prompt_file:
+        with open (prompt_file_path, 'r', , encoding='UTF-8') as prompt_file:
             prompt = prompt_file.read()
             
     except Exception as e:

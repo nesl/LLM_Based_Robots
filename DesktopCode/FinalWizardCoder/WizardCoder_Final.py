@@ -145,7 +145,7 @@ notifier = pyinotify.Notifier(watcher_manager, EventHandler())
 def initialModelBootUp():
     bootPrompts_path = mainFolder + 'BootUpPrompts.txt'
     
-    with open(bootPrompts_path, 'r') as file:
+    with open(bootPrompts_path, 'r', , encoding='UTF-8') as file:
         prompts = file.readlines()
         
     # Strip newline characters and create a list of lines
