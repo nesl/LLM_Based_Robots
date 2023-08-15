@@ -1,4 +1,4 @@
-from .createrobot import Createrobot
+from .createrobot import CreateRobot
 from .imageProcessing import ImageProcessing
 
 # Old Files encapsulated in ImageProcessing.
