@@ -1,6 +1,6 @@
 class CreateRobot:
     
-    script_file = '/home/nesl/RobotROS2.sh'
+    script_file = '/home/nesl/JetsonCode/Initial_Microphone/LLMRobot/RobotROS2.sh'
 
     def __init__(self):
         import math
@@ -243,7 +243,7 @@ class CreateRobot:
             if relative_y < 0:
                 angle_to_rotate = 180
         else:
-            angle_to_rotate = math.atan(relative_y / relative_x)
+            angle_to_rotate = self.math.atan(relative_y / relative_x)
             
             if relative_x < 0:
                 angle_to_rotate += 180
@@ -299,18 +299,18 @@ class CreateRobot:
 
 
     #==================== drive_distance function ====================#
-    def drive_distance(self, meters: Union[float, int] , speed:[float, int]):
-        self.position[0] += meters * math.cos(self.heading)
-        self.position[1] += meters * math.sin(self.heading)
+    def drive_distance(self, meters, speed):
+        self.position[0] += meters * self.math.cos(self.heading)
+        self.position[1] += meters * self.math.sin(self.heading)
         self.position[0] /= self.UNIT_LENGTH
         self.position[1] /= self.UNIT_LENGTH
         self.drive_distance_helper(meters, speed)
 
     #==================== rotate_angle function ====================#
-    def rotate_angle(self, degrees: Union[float, int], rotation_speed: Union[float, int]):
+    def rotate_angle(self, degrees, rotation_speed):
         self.heading += degrees
         self.heading %= 360
         if self.heading < 0:
             self.heading += 360
-        radians = (degrees * math.pi) / 180
+        radians = (degrees * self.math.pi) / 180
         self.rotate_angle_helper(radians, rotation_speed)
