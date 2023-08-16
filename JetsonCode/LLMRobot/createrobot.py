@@ -15,9 +15,9 @@ class CreateRobot:
         self.position = [0,0]
         self.heading = 0
         
-        DIR = [0,1,0,-1,0]
-        UNIT_LENGTH = 12
-        ROOM_MAP = [['E','E','E','E','E','E','E','E'],
+        self.DIR = [0,1,0,-1,0]
+        self.UNIT_LENGTH = 12
+        self.ROOM_MAP = [['E','E','E','E','E','E','E','E'],
                 ['E','E','E','E','E','E','E','E'],
                 ['E','E','E','E','E','B','E','E'],
                 ['E','E','E','E','E','B','E','E'],
@@ -30,7 +30,7 @@ class CreateRobot:
                 ]
                 
     def stop(self):
-        continue
+        return
     
     def dock(self):
         command='dock'

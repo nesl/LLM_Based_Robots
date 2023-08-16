@@ -12,8 +12,8 @@ class LidarCamera:
         self.np = np
         self.rs = rs
         self.Image = Image
-        self.depth_image_path = '/home/nesl/lidarimages/depth_image.png'
-        self.color_image_path = '/home/nesl/lidarimages/color_image.png'
+        self.depth_image_path = '/home/nesl/JetsonCode/lidarimages/depth_image.png'
+        self.color_image_path = '/home/nesl/JetsonCode/lidarimages/color_image.png'
 
 
 	#------Class Variables----

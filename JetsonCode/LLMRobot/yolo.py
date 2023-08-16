@@ -1,8 +1,6 @@
 import yolov5
 
 class Yolo:
-	depth_image_path = '/home/pragya/lidar_camera/depth_image.jpg'
-	color_image_path = '/home/pragya/lidar_camera/color_image.jpg'
 	
 	# load model
 	def __init__(self):
@@ -18,7 +16,7 @@ class Yolo:
 		#self.img = 'https://github.com/ultralytics/yolov5/raw/master/data/images/zidane.jpg'
 		
 		#----- Class Variables ------
-		self.img = '/home/nesl/lidarimages/color_image.png'
+		self.img = '/home/nesl/JetsonCode/lidarimages/color_image.png'
 		self.data = None #stores the predictions made by Yolo
 
 	#runs the model on an image

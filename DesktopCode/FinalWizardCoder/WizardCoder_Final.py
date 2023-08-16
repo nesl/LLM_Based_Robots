@@ -80,6 +80,10 @@ def generate_code():
     except Exception as e:
         print("Error when reading files:", str(e))
         exit(e)
+        
+    if userTask is None:
+        with open(code_file_path, 'w', encoding='UTF-8') as code_file:
+            code_file.write("")
     
     #Remove new line characters from userTask string
     userTask = userTask.replace("\n", "")
