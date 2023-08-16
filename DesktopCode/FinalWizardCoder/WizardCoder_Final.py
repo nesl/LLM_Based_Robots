@@ -175,9 +175,3 @@ except KeyboardInterrupt:
     # Exit gracefully when interrupted by Ctrl+C
     notifier.stop()
     print("Monitoring stopped")
-    
-
-
-    
-    
-
