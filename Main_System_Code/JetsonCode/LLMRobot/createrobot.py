@@ -1,6 +1,6 @@
 class CreateRobot:
     
-    script_file = '/home/nesl/JetsonCode/Initial_Microphone/LLMRobot/RobotROS2.sh'
+    script_file = '/home/nesl/JetsonCode/LLMRobot/RobotROS2.sh'
 
     def __init__(self):
         import math
