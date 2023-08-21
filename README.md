@@ -4,11 +4,10 @@ How viable is the method of using LLMs to control robots?
 
 Research Question/Goal: Create a framework that incorporates an LLM into a robotic system to serve as the central reasoning node.
 Then evaluate how LLMs work in real-time, resource-constrained environments that are often characteristic of home automation and personalized robotics.
-—----------------------------------------------------------------------------------------------------------------------------
 
-Three main phases in the Project:
+Three main components that define the structure of the system:
 
-- Action (Get Robot to work)
+- Action (Physical, Observable Responses)
 - Sensing (Integrate Sensors)
 - Intelligence (LLM)
 
