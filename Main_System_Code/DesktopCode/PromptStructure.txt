@@ -1,8 +1,8 @@
 Below is an instruction that describes a task. Write Python code, using only the APIs provided below, that appropriately completes the request. Provided after the APIs is context about the room's layout and the robot's position.
 {
-###LLMRobot API: Below are all the classes in a package called "LLMRobot"
+###LLMRobot API: Below are all the classes in a package called "LLMSystem"
 {
-###Robot API: Below are all the functions that control a robot from a class called "CreateRobot" in a package called "LLMRobot".
+###Robot API: Below are all the functions that control a robot from a class called "CreateRobot".
 {
 drive_distance(float32 meters, float32 speed): Drives robot straight the specified distance and then stops.
 	Argument 1: Meters the robot should travel. Positive for forwards and negative for backwards motion.
@@ -18,14 +18,14 @@ face_coordinate(float32 xp, float32 yp): The robot will turn to face the coordin
 	Argument 2: The y-position desired to face towards.
 }
 
-###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing" in a package called "LLMRobot".
+###Image Processing API: Below are all the functions that perform image processing from a class called "ImageProcessing".
 {
 get_color_image(): Takes and saves an RGB image of the scene in front of a robot in a file called "cameraImage.jpg".
 findObject(string obj): Searches for a specified object class in "cameraImage.jpg". The image must be taken prior to calling this function. Returns true if the object class is detected, false otherwise.
-	Argument 1: The name of the object class. This function can search for the following object classes: “water bottle”, “TV”, “bowl”, “book”, "person"
+	Argument 1: The name of the object class. This function can search for the following object classes: “bottle”, “TV”, “bowl”, “book”, "person"
 objectCounts(): Returns a dictionary listing all the objects detected in front of the robot as keys and the amount of them as values.
 depthToObject(string obj): Returns how far away in meters the object is from the robot.
-	Argument 1: The name of the object class. This function can recognize the following object classes: “water bottle”, “TV”, “bowl”, “book”, "person"
+	Argument 1: The name of the object class. This function can recognize the following object classes: “bottle”, “TV”, “bowl”, “book”, "person"
 }
 }
 
@@ -36,10 +36,9 @@ Coordinates of objects:
 {
 Jeff's desk: {(3,0). (4,0), and (4,1)}
 Bobs's desk: {(2,4). (2,5), and (3,5)}
-Conference Desk: {(7,5). (6,6), (7,6), and (8,6)}
 }
 }
 }
 
 ###Instruction:
-{Write Python Code to: Make the robot <USER TASK>}
+{Write Python Code to make the robot <USER TASK>}

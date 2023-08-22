@@ -35,7 +35,7 @@ class EventHandler(pyinotify.ProcessEvent):
         if file_path == userTask_file_path:
             # Process the file update event
             cur_time = time.ctime(time.time())
-            print(f"File updated: {file_path} at {cur_time}")
+            print(f"User Task received")
             central_loop()
             
 #----------------------------- AUXILIARY FUNCTIONS ------------------
@@ -85,6 +85,11 @@ def generate_code():
         with open(code_file_path, 'w', encoding='UTF-8') as code_file:
             code_file.write("")
         return
+    
+    if userTask[0] == ' ':
+    	userTask = userTask[1:]
+    #Lowercase the first letter of the first word in the usertask
+    userTask = userTask[0].lower() + userTask[1:]
     
     #Remove new line characters from userTask string
     userTask = userTask.replace("\n", "")
@@ -143,7 +148,7 @@ def central_loop():
 def initialModelBootUp():
     bootPrompts_path = mainFolder + 'BootUpPrompts.txt'
     
-    with open(bootPrompts_path, 'r', , encoding='UTF-8') as file:
+    with open(bootPrompts_path, 'r', encoding='UTF-8') as file:
         prompts = file.readlines()
         
     # Strip newline characters and create a list of lines
@@ -156,7 +161,7 @@ def initialModelBootUp():
     
     print("BootUp Files successfully run.")
         
-initialModelBootUp()
+#initialModelBootUp()
 
 #----------------------------- ACTIVATING LOOP ------------------
 # Add the directory to the watcher
@@ -169,7 +174,7 @@ notifier = pyinotify.Notifier(watcher_manager, EventHandler())
 
 # Start monitoring for file changes
 try:
-    print(f"Monitoring file: {userTask_file_path}")
+    print(f"Awaiting User Task")
     notifier.loop()
 except KeyboardInterrupt:
     # Exit gracefully when interrupted by Ctrl+C

@@ -23,7 +23,7 @@ username = 'pragya'
 password = 'neslrocks!'
 
 local_path = '/home/nesl/JetsonCode/output.txt'
-remote_path = '/home/pragya/Desktop/UserTask.txt'
+remote_path = '/home/pragya/DesktopCode/UserTask.txt'
 
 RESPEAKER_RATE = 16000
 RESPEAKER_CHANNELS = 6 # change base on firmwares, 1_channel_firmware.bin as 1 or 6_channels_firmware.bin as 6

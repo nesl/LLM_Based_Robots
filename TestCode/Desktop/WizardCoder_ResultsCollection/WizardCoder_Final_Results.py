@@ -13,7 +13,7 @@ model = AutoModelForCausalLM.from_pretrained("WizardLM/WizardCoder-15B-V1.0", to
 print("Model Loaded")
 
 #Path to the necessary files
-mainFolder = '/home/pragya/LLMCode/FinalWizardCoder/'
+mainFolder = '/home/pragya/OldLLMCodeFolder/Results/'
 userTask_file_path = mainFolder + 'UserTask.txt'
 promptStructure_file_path = mainFolder + 'PromptStructure.txt'
 documentation_file_path = mainFolder + 'results.txt'
@@ -129,7 +129,7 @@ def initialModelBootUp():
     for prompt in prompt_list:
         with open(userTask_file_path, 'w') as file:
             file.write(prompt)
-        generate_code(1)
+        generate_code(0)
     
     print("BootUp Files successfully run.")
         
