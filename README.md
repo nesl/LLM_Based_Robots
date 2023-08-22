@@ -2,13 +2,12 @@
 ### <a name="_wsd4gpfpx9lo"></a>Research Question / Purpose
 How viable is the method of using LLMs to control robots?
 
-Research Question/Goal: Integrate 2 LLMs to create a robotic system that receives human speech prompts and aids in performing daily life tasks. Test the capabilities, advantages, and limitations of such a system. 
+Research Question/Goal: Create a framework that incorporates an LLM into a robotic system to serve as the central reasoning node.
+Then evaluate how LLMs work in real-time, resource-constrained environments that are often characteristic of home automation and personalized robotics.
 
-—----------------------------------------------------------------------------------------------------------------------------
+Three main components that define the structure of the system:
 
-Three main phases in the Project:
-
-- Action (Get Robot to work)
+- Action (Physical, Observable Responses)
 - Sensing (Integrate Sensors)
 - Intelligence (LLM)
 
@@ -96,91 +95,9 @@ Ethan finish
 1. Test Python Example Code on ThonnyIDE
 
 
-# <a name="_rq48s2ghwvnh"></a>Overall Flowchart of Robot Interface / Execution
-Nodes:
-
-- Create-3
-- NVIDIA Jetson AGX
-- LIDAR Camera
-- Microphone Array
-- Desktop Machine
-
-Overall Process:
-
-- Input: Microphone → Desktop → Command String (text file, etc.)
-- Processing: Desktop + Command String → Create Prompt → LLM → Generate Output Code
-- Execution: Output Code → Grabbed by Jetson → Executed (on Create 3, LiDar, etc.)
-  - If error, retry code generation
-
-Prompt Engineering:
-
-- Microphone Input (What did the User Say?)
-- Add set list of functions/APIs
-
-3 (+1) Computers
-
-- Desktop
-  - Main LLM
-  - Receives prompt and function descriptions (in English)
-- Jetson
-  - Lidar – OpenCV + YOLO Object Recognition
-  - Microphone – Whisper AI
-  - USB Speaker – Some text to speech LLM
-  - Communicating with Desktop
-  - Houses APIs (in code form)
-- Robot
-  - Communicates with Desktop
-- Raspberry Pi (Optional)
-
-
 # <a name="_u5tjiebpdhq1"></a>Steps To Work on Project
 1. Connect Create 3 Robot to Wifi using [these steps](https://edu.irobot.com/create3-setup)
 1. Go to Terminal
    1. Type “source /opt/ros/galactic/setup.bash”
    1. Type “export ROS\_DOMAIN\_ID=<your\_domain\_id>” (in our case, 0)
 1. To open
-
-# <a name="_szlqy2n8cbw"></a>General Links:
-### <a name="_58wk7hfvy6ky"></a>Nvidia Jetson:
-- [AGX Developer Manual](https://developer.download.nvidia.com/embedded/L4T/r32-3-1_Release_v1.0/jetson_agx_xavier_developer_kit_user_guide.pdf?t=eyJscyI6InJlZiIsImxzZCI6IlJFRi1pcm9ib3RlZHVjYXRpb24uZ2l0aHViLmlvLyJ9)
-- [Nvidia Jetson Linux](https://developer.nvidia.com/embedded/jetson-linux)
-- [Nvidia Jetpack Information](https://developer.nvidia.com/embedded/jetpack)
-- [Specs](https://elinux.org/Jetson_AGX_Xavier)
-### <a name="_43vo509xsoz9"></a>Create 3 Robot:
-- [Create 3 Robot Setup](https://edu.irobot.com/create3-setup)
-- [Create3 galactic environment setup](https://iroboteducation.github.io/create3_docs/setup/ubuntu2004/)
-- [Create 3 Learning Library](https://edu.irobot.com/learning-library?robotValue=Advanced%20Create%203%20Robot&toggle=lessons)
-- [Create 3 Docs](https://iroboteducation.github.io/create3_docs/)
-- [Create 3 Setup Video](https://www.youtube.com/watch?v=UeLHrAvZ_h0)
-### <a name="_coij5y6249ow"></a>Other Sensors / Electronics:
-- [LiDar camera (Intel Realsense L515)](https://www.intelrealsense.com/lidar-camera-l515/)
-- [Intel Realsense with ROS](https://dev.intelrealsense.com/docs/ros-wrapper?_ga=2.42215591.38238678.1687886906-1916588351.1687886906)
-- [Intel Realsense Overall (Intel website)](https://www.intelrealsense.com/sdk-2/)
-- [Intel realsense connect to jetson](https://dev.intelrealsense.com/docs/nvidia-jetson-tx2-installation)
-- https://intelrealsense.github.io/librealsense/python\_docs/\_generated/pyrealsense2.html
-### <a name="_7xsf9smccxwv"></a>LLMs:
-- [AI (/LLM) Leaderboard](https://huggingface.co/spaces/mike-ravkine/can-ai-code-results)
-- [StarChat Playground](https://huggingface.co/spaces/HuggingFaceH4/starchat-playground)
-- [Connect Raspberry Pi to Create 3](https://jimbobbennett.dev/blogs/irobot-create3-connect-a-pi/)
-- [Whisper AI](https://platform.openai.com/docs/models/whisper)
-- [Whisper Paper](https://arxiv.org/abs/2306.08568)
-- [Wizard LM](https://github.com/nlpxucan/WizardLM/tree/main/WizardCoder)
-### <a name="_91gnzzlbwlfo"></a>ROS 2
-- [ROS 2 Distributions](https://docs.ros.org/en/rolling/Releases.html)
-- [Intro to ROS](https://www.toptal.com/robotics/introduction-to-robot-operating-system)
-- <https://github.com/IntelRealSense/realsense-ros#installation-instructions>
-### <a name="_1rge0cxylwci"></a>Tutorials
-- [ROS Tutorials](http://wiki.ros.org/ROS/Tutorials)
-- [tf2 Tutorials](http://wiki.ros.org/tf2/Tutorials)
-- [Understanding ROS](https://docs.ros.org/en/rolling/Tutorials.html)
-- [Install ROS to AGX](https://www.youtube.com/watch?v=HjFs00rrJfY)
-- [Getting Started with the Create 3® Educational Robot](https://www.youtube.com/watch?v=UeLHrAvZ_h0)
-
-### <a name="_35ws8hg0fki8"></a>Audio/Raspberry PI:
-- [GitHub - openai/whisper: Robust Speech Recognition via Large-Scale Weak Supervision](https://github.com/openai/whisper) 
-- [How do I run Whisper on a Raspberry Pi 4B? · openai whisper · Discussion #1304 · GitHub](https://github.com/openai/whisper/discussions/1304) 
-- [ReSpeaker Mic Array v2.0 | Seeed Studio Wiki](https://wiki.seeedstudio.com/ReSpeaker_Mic_Array_v2.0/#extract-voice) 
-### <a name="_mnmb6lxjpm0i"></a>Other Resources:
-- Ubuntu 22.04 OS Installation: <https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview> 
-### <a name="_xwz4675yuvvg"></a>Lab Related:
-- [Key Form](https://www.ee.ucla.edu/wp-content/uploads/ee/HSSEAS-Key-Request-Form-2012.pdf)
