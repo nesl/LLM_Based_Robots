@@ -1,5 +1,5 @@
 #need to run as sudo -E python3 speechToText.py
-
+#!/usr/bin/env python3
 import pyaudio
 import wave
 import whisper
@@ -15,6 +15,7 @@ import usb.util
 import time
 import sys
 sys.path.append('/home/nesl/usb_4_mic_array')
+
 from tuning import Tuning
 
 #ssh remote computer information
@@ -28,7 +29,7 @@ remote_path = '/home/pragya/DesktopCode/UserTask.txt'
 RESPEAKER_RATE = 16000
 RESPEAKER_CHANNELS = 6 # change base on firmwares, 1_channel_firmware.bin as 1 or 6_channels_firmware.bin as 6
 RESPEAKER_WIDTH = 2
-RESPEAKER_INDEX = 25  # refer to input device id ------------------- run get_index.py to check for correct id number
+RESPEAKER_INDEX = 1  # refer to input device id ------------------- run get_index.py to check for correct id number
 CHUNK = 1024
 RECORD_SECONDS = 3 #record in 2 second intervals 
 WAVE_OUTPUT_FILENAME = "/home/nesl/JetsonCode/output.wav"
@@ -43,7 +44,7 @@ class EventHandler(pyinotify.ProcessEvent):
         file_path = os.path.join(event.path, event.name)
         if file_path == codeGen_file_path:
             cur_time = time.ctime(time.time())
-            print(f"File updated: {file_path} at {cur_time}")
+            print(f"Code File received")
             central_loop()
 
 #----------------------------------------------------MAIN------------------------------------------------------------
@@ -71,7 +72,7 @@ def record():
         if Mic_tuning.is_voice():
             stream = p.open(rate=RESPEAKER_RATE,format=p.get_format_from_width(RESPEAKER_WIDTH),channels=RESPEAKER_CHANNELS,input=True,input_device_index=RESPEAKER_INDEX,)
             frames = []
-            print("* recording")
+            print("* recording user task")
         while Mic_tuning.is_voice():
             for i in range(0, int(RESPEAKER_RATE / CHUNK * RECORD_SECONDS)):
                 data = stream.read(CHUNK)
@@ -94,7 +95,7 @@ def transcribe():
     #run whisper base model to transcribe audio file
     model = whisper.load_model("base")
     result = model.transcribe("/home/nesl/JetsonCode/output.wav")
-    print(result["text"])
+    print("Task:", result["text"])
     
     
     #write result to text file
@@ -116,13 +117,12 @@ def ssh():
         ssh.close()
 	    
 def run_code():
-    try:
-        subprocess.run(["python3", "/home/nesl/JetsonCode/desktopTransferredCode.py"], check=True)
-        print("Script executed successfully")
-    except subprocess.CalledProcessError as e:
-        print("Error executing the script", e)
+	try:
+		result = subprocess.run(["python3", "/home/nesl/JetsonCode/desktopTransferredCode.py"], env=os.environ, check=True)
+		print("Script executed successfully")
+	except subprocess.CalledProcessError as e:
+		print("Error executing the script", e)
 	
-
 dir_to_watch = os.path.abspath(mainFolder)
 watcher_manager = pyinotify.WatchManager()    
 watch_mask = pyinotify.IN_CLOSE_WRITE
@@ -134,7 +134,7 @@ record()
 transcribe()
 ssh()
 try:
-    print(f"Monitoring file: {codeGen_file_path}")
+    print(f"Monitoring for code file")
     notifier.loop()
 except KeyboardInterrupt:
     notifier.stop()

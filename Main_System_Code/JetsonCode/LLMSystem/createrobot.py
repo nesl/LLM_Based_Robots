@@ -86,9 +86,9 @@ class CreateRobot:
             print("Command failed with return code:", output.returncode)
             print("Error output:", output.stderr)
     
-    def navigate_to_position(self, achieve_goal_heading: bool, xp: "np.float32", yp: "np.float32", zp: "np.float32", xo: "np.float32", yo: "np.float32", zo: "np.float32", wo: "np.float32"):
+    def navigate_to_position(self, xp: "np.float32", yp: "np.float32"):
         command = 'navigate_to_position'
-        output = subprocess.run([self.script_file, command, str(achieve_goal_heading), str(xp), str(yp), str(zp), str(xo), str(yo), str(zo), str(wo)], capture_output=True, text=True)
+        output = self.subprocess.run([self.script_file, command, str(True), str(xp), str(yp), str(0), str(0), str(0), str(0), str(0)], capture_output=True, text=True)
         if output.returncode == 0:
             print("Command executed successfully")
         else:

@@ -93,10 +93,10 @@ class Yolo:
 				
 		return objectDict
 
-    def returnBounds(self, index):
-        upperLeft = [self.data[index][0], self.datta[index][1]]
-        bottomRight = [self.data[index][2], self.data[index][3]]
-        return [upperLeft, bottomRight]
+	def returnBounds(self, index):
+		upperLeft = [self.data[index][0], self.datta[index][1]]
+		bottomRight = [self.data[index][2], self.data[index][3]]
+		return [upperLeft, bottomRight]
 
 	#------------------Basic Accessors and Mutators
 	def setImage(self, img):

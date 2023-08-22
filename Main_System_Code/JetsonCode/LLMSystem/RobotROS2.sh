@@ -1,4 +1,13 @@
 #!/bin/bash
+export PATH=/usr/local/cuda-11.4/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.4/lib64:$LD_LIBRARY_PATH
+export ROS_DOMAIN_ID=0
+source /usr/share/colcon_cd/function/colcon_cd.sh
+export _colcon_cd_root=/opt/ros/galactic/
+source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+source /opt/ros/galactic/setup.bash
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
 argument=$1
 if [ "$argument" = "dock" ]; then
     ros2 action send_goal /dock irobot_create_msgs/action/DockServo "{}"
