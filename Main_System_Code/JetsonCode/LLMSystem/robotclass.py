@@ -16,7 +16,6 @@ class Robot:
         self._robot_name = 'iRobotCreate3'
         self._robot_bluetooth_address = "47682A24-F400-A918-B4A0-08822B3A25F4"
         self._robot = Create3(Bluetooth(self._robot_name, self._robot_bluetooth_address))
-        #self._robot = Create3(Bluetooth(self._robot_name, self._robot_bluetooth_address))
 
     #==================== sound action mapping ====================#
     ### explanation: Define different sounds for different actions of the robot.
@@ -52,11 +51,9 @@ class Robot:
 
                 # if in the same line consistently, check next element
                 if same_x and next_coordinate and cur_coordinate[0] == next_coordinate[0]:
-                    coordinate_to_add = next_coordinate
                     same_y = False
                     i += 1
                 elif same_y and next_coordinate and cur_coordinate[1] == next_coordinate[1]:
-                    coordinate_to_add = next_coordinate
                     same_x = False
                     i += 1
                 else:
@@ -65,16 +62,17 @@ class Robot:
                     same_x = True
                     same_y = True
                     i += 1
-
+            
+            # print("merged path:", merged_path) #for debugging
             return merged_path
 
         # Define an empty path and append the target position
         path = []
-        cur_pos = target
+        cur_pos = start
         path.append(cur_pos)
 
         # Search for numbers in descending order on map until find start position
-        while (cur_pos != start):
+        while (cur_pos != target):
             for i in range (0, 4):
                 prev_pos = [cur_pos[0]-self.DIR[i], cur_pos[1]-self.DIR[i+1]]
                 # print(room_map[prev_pos[0]][prev_pos[1]], room_map[cur_pos[0]][cur_pos[1]]) # For debug purpose
@@ -87,7 +85,7 @@ class Robot:
             cur_pos = prev_pos
 
         # Reverse the list to get correct-ordered path
-        path.reverse()
+        # path.reverse()
         print("Complete path: ", path)
 
         return merge_path(path)
@@ -98,39 +96,42 @@ class Robot:
     ###              exit(1) if robot cannot get to the target place
 
     def BFS(self, room_map, start, target):
-        # If start and target are the same place, no need to move
-        if (start == target):
-            return []
+        try:
+            # If start and target are the same place, no need to move
+            if (start == target):
+                return
 
-        # BFS 
-        my_queue = queue.Queue()
-        my_queue.put(start)   
-        room_map[start[0]][start[1]] = 0
+            # BFS
+            my_queue = queue.Queue()
+            my_queue.put(target)
+            room_map[target[0]][target[1]] = 0
 
-        # Process elements in the queue until it becomes empty
-        while not my_queue.empty():
-            # Get the current position from the front of the queue
-            cur_pos = my_queue.get()
-            # record and return the valid path
-            if (cur_pos == target):
-                return self.get_path(room_map, start, target)
+            # Process elements in the queue until it becomes empty
+            while not my_queue.empty():
+                # Get the current position from the front of the queue
+                cur_pos = my_queue.get()
+                # record and return the valid path
+                if (cur_pos == start):
+                    return self.get_path(room_map, start, target)
+                
+                # Update map to find path
+                for i in range(0,4):
+                    next_pos = [cur_pos[0]+self.DIR[i], cur_pos[1]+self.DIR[i+1]]
+                    if next_pos[0]<0 or next_pos[0]>=len(room_map) or next_pos[1]<0 or next_pos[1]>=len(room_map[0]):
+                        continue
+                    if room_map[next_pos[0]][next_pos[1]] == 'B':
+                        continue
+                    if str(room_map[next_pos[0]][next_pos[1]]).isdigit():
+                        room_map[next_pos[0]][next_pos[1]] = min(room_map[next_pos[0]][next_pos[1]], room_map[cur_pos[0]][cur_pos[1]]+1)
+                        continue
+                    room_map[next_pos[0]][next_pos[1]] = room_map[cur_pos[0]][cur_pos[1]]+1
+                    my_queue.put(next_pos)
             
-            # Update map to find path
-            for i in range(0,4):
-                next_pos = [cur_pos[0]+self.DIR[i], cur_pos[1]+self.DIR[i+1]]
-                if next_pos[0]<0 or next_pos[0]>=len(room_map) or next_pos[1]<0 or next_pos[1]>=len(room_map[0]):
-                    continue
-                if room_map[next_pos[0]][next_pos[1]] == 'B':
-                    continue
-                if str(room_map[next_pos[0]][next_pos[1]]).isdigit():
-                    room_map[next_pos[0]][next_pos[1]] = min(room_map[next_pos[0]][next_pos[1]], room_map[cur_pos[0]][cur_pos[1]]+1)
-                    continue
-                room_map[next_pos[0]][next_pos[1]] = room_map[cur_pos[0]][cur_pos[1]]+1
-                my_queue.put(next_pos)
-        
-        # Not find valid path and exit with error
-        print("Cannot find a path to the target point")
-        exit(1)
+            # Not find valid path and exit with error
+            print("Cannot find a path to the target point")
+            exit(1)
+        except Exception as e:
+            print("Error when BFS:", e)
 
     
     #==================== main body of robot navigation action ====================#
@@ -144,13 +145,14 @@ class Robot:
     async def helper_fixed_map_navigate_to(self, room_map, target):
 
         # action 1
-        cur_pos = await self._robot.get_position()
-        start = [cur_pos.x, cur_pos.y]
+        # TODO: modify the starting position
+        start = [0,0]
         path = self.BFS(room_map, start, target)
         print ("Path: ", path)
+        print("Start Navigation")
 
         # action 2
-        await self.play_sound('start_move')
+        # await self.play_sound('start_move')
 
         # action 3
         for i in range (0,len(path)):
@@ -159,28 +161,55 @@ class Robot:
             await self._robot.navigate_to(x*self.UNIT_LENGTH, y*self.UNIT_LENGTH, heading = None)
 
         # action 4
-        await self.play_sound('stop_move')
+        # await self.play_sound('stop_move')
 
         # action 5
         print("Navigation completed!")
-
-    #==================== add navigation helper function to the play loop ====================#
+        
+   #==================== add navigation helper function to the play loop ====================#
     ### explanation: Robot will only start move when robot.play() function is captured by event robot.when_play (reference: irobot_edu_sdk/robot.py).
     ###              Define navigate function to wrap navigation helper function.
     ###              Pass the navigate function to when_play event and call the robot.play().
 
     def fixed_map_navigate_to(self, room_map, target):
-        async def navigate(robot):
-            await self.helper_fixed_map_navigate_to(room_map, target)
-            # TODO: experiment on jetson to see if need to stop_program (possibly not)
-            stop_program()
+        # async def undock(arg=None):
+        #     await self._robot.undock()
+        async def navigate(arg=None):
+            await self.helper_fixed_map_navigate_to(room_map, target)        
         self._robot.when_play(navigate)
+
+    def robot_undock(self):
+        async def undock(arg=None):
+             await self._robot.undock()
+        self._robot.when_play(undock)
+
+    def robot_dock(self):
+        async def dock(arg=None):
+             await self._robot.dock()
+        self._robot.when_play(dock)
+
+    def robot_turn_right(self, angle):
+        async def turn_right(angle):
+            await self._robot.turn_right(angle)
+        self._robot.when_play(turn_right)
+
+    def robot_turn_left(self, angle):
+        async def turn_left(angle):
+            await self._robot.turn_left(angle)
+        self._robot.when_play(turn_left)
+
+    def start_action(self):
         self._robot.play()  # Start the robot's event loop
 
+    def end_action(self):
+        stop_program()
 
 #-------------------------------------------------- test case --------------------------------------------------#
 if __name__ == '__main__':
     room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
     robot = Robot()
+    # robot.robot_undock()
+    # robot.robot_dock()
     robot.fixed_map_navigate_to(room_map, [2, 2])
-    robot.stop()
+    robot.start_action()
+    robot.end_action()
