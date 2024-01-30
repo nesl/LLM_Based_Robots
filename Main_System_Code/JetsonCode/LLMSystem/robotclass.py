@@ -10,12 +10,24 @@ class Robot:
     #==================== global variables ====================#
     DIR = [0,1,0,-1,0]
     UNIT_LENGTH = 20
+    ROBOT_POS = [0,0]
+    ROBOT_HEADING = 0
 
     def __init__(self): 
         # Connecting to iRobotCreate3 (47682A24-F400-A918-B4A0-08822B3A25F4)
         self._robot_name = 'iRobotCreate3'
         self._robot_bluetooth_address = "47682A24-F400-A918-B4A0-08822B3A25F4"
         self._robot = Create3(Bluetooth(self._robot_name, self._robot_bluetooth_address))
+
+    #==================== update position class method ====================#
+    @classmethod
+    def update_robot_position(cls, new_position):
+        cls.ROBOT_POS = new_position
+
+    @classmethod
+    def update_robot_orientation(cls, new_heading):
+        cls.ROBOT_HEADING = new_heading
+
 
     #==================== sound action mapping ====================#
     ### explanation: Define different sounds for different actions of the robot.
@@ -132,9 +144,44 @@ class Robot:
             exit(1)
         except Exception as e:
             print("Error when BFS:", e)
-
     
-    #==================== main body of robot navigation action ====================#
+    #==================== navigate function ====================#
+    def navigate(self, pos, exp_pos, heading=ROBOT_HEADING):
+        if pos[0] == exp_pos[0] and pos[1] != exp_pos[1]:
+            y = exp_pos[1]-pos[1]
+            new_heading = heading
+            if y < 0:
+                turn_angle = (360+180-heading)%360
+            elif y > 0:
+                turn_angle = 360-heading
+            distance = y*self.UNIT_LENGTH
+            
+        elif pos[0] != exp_pos[0] and pos[1] == exp_pos[1]:
+            x = exp_pos[0]-pos[0]
+            if x < 0:
+                turn_angle=(360+270-heading)%360
+            elif x > 0:
+                turn_angle=(360+90-heading)%360
+            distance = x*self.UNIT_LENGTH
+        new_heading = (heading + turn_angle) % 360
+
+        # print("turn angle:", turn_angle)
+        # print("new heading:", new_heading)
+        turn_left = False
+        if (turn_angle > 180):
+            turn_angle -= 180
+            turn_left = True
+        if turn_left:
+            self._robot.turn_left(turn_angle)
+        else:
+            self._robot.turn_right(turn_angle)
+        self.update_robot_orientation(new_heading)
+        print("robot heading:", self.ROBOT_HEADING)
+        self._robot.move(distance)
+        self.update_robot_position(exp_pos)
+        print("robot position:", self.ROBOT_POS)
+    
+    #==================== main body of robot navigation saction ====================#
     ### explanation: robot mainly follow the actions in this function when fixed_map_navigate_to function is called
     # action 1: Call BFS to find the optimal path
     # action 2: Play sound to show the robot starts moving
@@ -142,11 +189,10 @@ class Robot:
     # action 4: Play sound to show the robot finishes moving
     # action 5: Print "Navigation completed!"
 
-    async def helper_fixed_map_navigate_to(self, room_map, target):
+    def helper_fixed_map_navigate_to(self, room_map, target):
 
         # action 1
-        # TODO: modify the starting position
-        start = [0,0]
+        start = self.ROBOT_POS
         path = self.BFS(room_map, start, target)
         print ("Path: ", path)
         print("Start Navigation")
@@ -154,11 +200,18 @@ class Robot:
         # action 2
         # await self.play_sound('start_move')
 
+
         # action 3
-        for i in range (0,len(path)):
-            x = path[i][0]
-            y = path[i][1]
-            await self._robot.navigate_to(x*self.UNIT_LENGTH, y*self.UNIT_LENGTH, heading = None)
+        print("self.ROBOT_POS before:", self.ROBOT_POS)
+        prev_pos = self.ROBOT_POS
+        if path is not None:
+            for i in range (0,len(path)):
+                exp_pos = path[i]
+                self.navigate(prev_pos,exp_pos,self.ROBOT_HEADING)
+                print("now the robot is at:", exp_pos)
+                prev_pos = [path[i][0], path[i][1]]
+            # self.update_robot_position(path[i])
+            print("self.ROBOT_POS after:", self.ROBOT_POS)
 
         # action 4
         # await self.play_sound('stop_move')
@@ -189,20 +242,34 @@ class Robot:
         self._robot.when_play(dock)
 
     def robot_turn_right(self, angle):
-        async def turn_right(angle):
-            await self._robot.turn_right(angle)
-        self._robot.when_play(turn_right)
+        # async def turn_right(arg=None):
+        #     await self._robot.turn_right(angle)
+        # self._robot.when_play(turn_right)
+        self._robot.turn_right(angle)
+        self.update_robot_orientation((self.ROBOT_HEADING + angle)%360)
 
     def robot_turn_left(self, angle):
-        async def turn_left(angle):
-            await self._robot.turn_left(angle)
-        self._robot.when_play(turn_left)
+        # async def turn_left(arg=None):
+        #     await self._robot.turn_left(angle)
+        # self._robot.when_play(turn_left)
+        self._robot.turn_left(angle)
+        self.update_robot_orientation((self.ROBOT_HEADING + (360-angle))%360)
+
+
+    # def robot_finish_moving(self):
+    #     async def disconnect(arg=None):
+    #         await self._robot.disconnect()
+    #     self._robot.when_play(disconnect)
+
 
     def start_action(self):
         self._robot.play()  # Start the robot's event loop
 
     def end_action(self):
-        stop_program()
+        def stop_program(arg=None):
+            stop_program
+        self._robot.when_play(stop_program)
+
 
 #-------------------------------------------------- test case --------------------------------------------------#
 if __name__ == '__main__':
@@ -210,6 +277,13 @@ if __name__ == '__main__':
     robot = Robot()
     # robot.robot_undock()
     # robot.robot_dock()
-    robot.fixed_map_navigate_to(room_map, [2, 2])
-    robot.start_action()
-    robot.end_action()
+    robot.helper_fixed_map_navigate_to(room_map, [2, 2])
+    # robot.navigate([0,0],[0,1])
+    # robot.fixed_map_navigate_to(room_map, [0, 0])
+    # robot.robot_finish_moving()
+    # robot.end_action()
+    # robot.start_action()
+
+
+    # step 1: modify heading calculation
+    # step 2: check class method
