@@ -227,7 +227,6 @@ class Robot:
     def fixed_map_navigate_to(self, room_map, target):
         async def navigate(arg=None):
             await self.helper_fixed_map_navigate_to(room_map, target)     
-            stop_program() # TODO: delete   
         self._robot.when_play(navigate)
 
     def robot_undock(self):
@@ -271,17 +270,19 @@ class Robot:
 
 
 #-------------------------------------------------- test case --------------------------------------------------#
-# if __name__ == '__main__':
-#     room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
-#     robot = Robot()
-#     # robot.robot_undock()
-#     # robot.robot_dock()
-#     robot.fixed_map_navigate_to(room_map, [2, 2])
-#     # robot.navigate([0,0],[0,1])
-#     # robot.fixed_map_navigate_to(room_map, [0, 0])
-#     # robot.robot_finish_moving()
-#     # robot.end_action()
-#     robot.start_action()
+if __name__ == '__main__':
+    room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
+    robot = Robot()
+    # robot.robot_undock()
+    # robot.robot_dock()
+    robot.fixed_map_navigate_to(room_map, [1, 1])
+    # robot.navigate([0,0],[0,1])
+    # robot.fixed_map_navigate_to(room_map, [0, 0])
+    # robot.robot_finish_moving()
+    # robot.end_action()
+    robot.start_action()
+    robot.fixed_map_navigate_to(room_map, [2, 2])
+    robot.start_action()
 
 
     # step 2: check class method
