@@ -53,15 +53,6 @@
 from robotclass import Robot
 
 room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
-robot = Robot()
-# robot.robot_undock()
-# robot.robot_dock()
-robot.fixed_map_navigate_to(room_map, [2, 2])
-# robot.navigate([0,0],[0,1])
-# robot.fixed_map_navigate_to(room_map, [0, 0])
-# robot.robot_finish_moving()
-robot.start_action()
-
 robot2 = Robot()
 robot2.fixed_map_navigate_to(room_map, [0, 0])
 robot2.start_action()

@@ -146,7 +146,7 @@ class Robot:
             print("Error when BFS:", e)
     
     #==================== navigate function ====================#
-    def navigate(self, pos, exp_pos, heading=ROBOT_HEADING):
+    async def navigate(self, pos, exp_pos, heading=ROBOT_HEADING):
         if pos[0] == exp_pos[0] and pos[1] != exp_pos[1]:
             y = exp_pos[1]-pos[1]
             new_heading = heading
@@ -172,12 +172,12 @@ class Robot:
             turn_angle -= 180
             turn_left = True
         if turn_left:
-            self._robot.turn_left(turn_angle)
+            await self._robot.turn_left(turn_angle)
         else:
-            self._robot.turn_right(turn_angle)
+            await self._robot.turn_right(turn_angle)
         self.update_robot_orientation(new_heading)
         print("robot heading:", self.ROBOT_HEADING)
-        self._robot.move(distance)
+        await self._robot.move(distance)
         self.update_robot_position(exp_pos)
         print("robot position:", self.ROBOT_POS)
     
@@ -189,7 +189,7 @@ class Robot:
     # action 4: Play sound to show the robot finishes moving
     # action 5: Print "Navigation completed!"
 
-    def helper_fixed_map_navigate_to(self, room_map, target):
+    async def helper_fixed_map_navigate_to(self, room_map, target):
 
         # action 1
         start = self.ROBOT_POS
@@ -207,7 +207,7 @@ class Robot:
         if path is not None:
             for i in range (0,len(path)):
                 exp_pos = path[i]
-                self.navigate(prev_pos,exp_pos,self.ROBOT_HEADING)
+                await self.navigate(prev_pos,exp_pos,self.ROBOT_HEADING)
                 print("now the robot is at:", exp_pos)
                 prev_pos = [path[i][0], path[i][1]]
             # self.update_robot_position(path[i])
@@ -225,10 +225,9 @@ class Robot:
     ###              Pass the navigate function to when_play event and call the robot.play().
 
     def fixed_map_navigate_to(self, room_map, target):
-        # async def undock(arg=None):
-        #     await self._robot.undock()
         async def navigate(arg=None):
-            await self.helper_fixed_map_navigate_to(room_map, target)        
+            await self.helper_fixed_map_navigate_to(room_map, target)     
+            stop_program() # TODO: delete   
         self._robot.when_play(navigate)
 
     def robot_undock(self):
@@ -242,16 +241,16 @@ class Robot:
         self._robot.when_play(dock)
 
     def robot_turn_right(self, angle):
-        # async def turn_right(arg=None):
-        #     await self._robot.turn_right(angle)
-        # self._robot.when_play(turn_right)
+        async def turn_right(arg=None):
+            await self._robot.turn_right(angle)
+        self._robot.when_play(turn_right)
         self._robot.turn_right(angle)
         self.update_robot_orientation((self.ROBOT_HEADING + angle)%360)
 
     def robot_turn_left(self, angle):
-        # async def turn_left(arg=None):
-        #     await self._robot.turn_left(angle)
-        # self._robot.when_play(turn_left)
+        async def turn_left(arg=None):
+            await self._robot.turn_left(angle)
+        self._robot.when_play(turn_left)
         self._robot.turn_left(angle)
         self.update_robot_orientation((self.ROBOT_HEADING + (360-angle))%360)
 
@@ -272,18 +271,20 @@ class Robot:
 
 
 #-------------------------------------------------- test case --------------------------------------------------#
-if __name__ == '__main__':
-    room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
-    robot = Robot()
-    # robot.robot_undock()
-    # robot.robot_dock()
-    robot.helper_fixed_map_navigate_to(room_map, [2, 2])
-    # robot.navigate([0,0],[0,1])
-    # robot.fixed_map_navigate_to(room_map, [0, 0])
-    # robot.robot_finish_moving()
-    # robot.end_action()
-    # robot.start_action()
+# if __name__ == '__main__':
+#     room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
+#     robot = Robot()
+#     # robot.robot_undock()
+#     # robot.robot_dock()
+#     robot.fixed_map_navigate_to(room_map, [2, 2])
+#     # robot.navigate([0,0],[0,1])
+#     # robot.fixed_map_navigate_to(room_map, [0, 0])
+#     # robot.robot_finish_moving()
+#     # robot.end_action()
+#     robot.start_action()
 
 
-    # step 1: modify heading calculation
     # step 2: check class method
+
+
+    
