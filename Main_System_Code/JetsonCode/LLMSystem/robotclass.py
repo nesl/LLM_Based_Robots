@@ -147,7 +147,7 @@ class Robot:
             print("Error when BFS:", e)
     
     #==================== navigate function ====================#
-    async def navigate(self, pos, exp_pos, heading=ROBOT_HEADING):
+    def navigate(self, pos, exp_pos, heading=ROBOT_HEADING):
         if pos[0] == exp_pos[0] and pos[1] != exp_pos[1]:
             y = exp_pos[1]-pos[1]
             new_heading = heading
@@ -173,12 +173,12 @@ class Robot:
             turn_angle -= 180
             turn_left = True
         if turn_left:
-            await self._robot.turn_left(turn_angle)
+            self._robot.turn_left(turn_angle)
         else:
-            await self._robot.turn_right(turn_angle)
+            self._robot.turn_right(turn_angle)
         self.update_robot_orientation(new_heading)
         print("robot heading:", self.ROBOT_HEADING)
-        await self._robot.move(distance)
+        self._robot.move(distance)
         self.update_robot_position(exp_pos)
         print("robot position:", self.ROBOT_POS)
     
@@ -190,7 +190,7 @@ class Robot:
     # action 4: Play sound to show the robot finishes moving
     # action 5: Print "Navigation completed!"
 
-    async def helper_fixed_map_navigate_to(self, room_map, target):
+    def helper_fixed_map_navigate_to(self, room_map, target):
 
         # action 1
         start = self.ROBOT_POS
@@ -210,7 +210,7 @@ class Robot:
         if path is not None:
             for i in range (0,len(path)):
                 exp_pos = path[i]
-                await self.navigate(prev_pos,exp_pos,self.ROBOT_HEADING)
+                self.navigate(prev_pos,exp_pos,self.ROBOT_HEADING)
                 print("now the robot is at:", exp_pos)
                 prev_pos = [path[i][0], path[i][1]]
             # self.update_robot_position(path[i])
@@ -276,12 +276,10 @@ class Robot:
 if __name__ == '__main__':
     room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
     robot = Robot()
-    robot.BFS(room_map,[0,0],[2,2])
-    print(room_map)
-    # robot.fixed_map_navigate_to(my_room_map.copy(), [1, 0])
+    robot.helper_fixed_map_navigate_to(room_map.copy(), [1, 0])
     # # robot.start_action()
     # print(my_room_map)
-    # robot.fixed_map_navigate_to(my_room_map.copy(), [2, 2])
+    robot.helper_fixed_map_navigate_to(room_map.copy(), [2, 2])
     # robot.start_action()
 
 
