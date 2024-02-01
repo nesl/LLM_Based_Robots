@@ -48,7 +48,7 @@ class Robot:
     ###               get_path function back trace the numbers in descending order until find a 0, ie, start point. 
     ###               path list reverse itself after the back trace to get correct sequence of paths that robot will want to follow.
 
-    def get_path(self, my_room_map, start, target):
+    def get_path(self, room_map, start, target):
         # helper function to optimize path
         ### explanation: merge two coordinates if they are in the same line
         def merge_path(path):
@@ -106,7 +106,7 @@ class Robot:
     ### explanation: Find and return the shortest path the robot can follow from one point to another
     ###              exit(1) if robot cannot get to the target place
 
-    def BFS(self, my_room_map, start, target):
+    def BFS(self, room_map, start, target):
         try:
             # If start and target are the same place, no need to move
             if (start == target):
@@ -272,18 +272,18 @@ class Robot:
 
 #-------------------------------------------------- test case --------------------------------------------------#
 if __name__ == '__main__':
-    room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
+    my_room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
     robot = Robot()
     # robot.robot_undock()
     # robot.robot_dock()
-    robot.fixed_map_navigate_to(room_map.copy(), [1, 0])
+    robot.fixed_map_navigate_to(my_room_map.copy(), [1, 0])
     # robot.navigate([0,0],[0,1])
     # robot.fixed_map_navigate_to(room_map, [0, 0])
     # robot.robot_finish_moving()
     # robot.end_action()
     robot.start_action()
-    print(room_map)
-    robot.fixed_map_navigate_to(room_map.copy(), [2, 2])
+    print(my_room_map)
+    robot.fixed_map_navigate_to(my_room_map.copy(), [2, 2])
     robot.start_action()
 
 
