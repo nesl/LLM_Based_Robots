@@ -48,8 +48,7 @@ class Robot:
     ###               get_path function back trace the numbers in descending order until find a 0, ie, start point. 
     ###               path list reverse itself after the back trace to get correct sequence of paths that robot will want to follow.
 
-    def get_path(self, room_map, start, target):
-
+    def get_path(self, my_room_map, start, target):
         # helper function to optimize path
         ### explanation: merge two coordinates if they are in the same line
         def merge_path(path):
@@ -98,7 +97,7 @@ class Robot:
 
         # Reverse the list to get correct-ordered path
         # path.reverse()
-        print("Complete path: ", path)
+        # print("Complete path: ", path)
 
         return merge_path(path)
 
@@ -107,7 +106,7 @@ class Robot:
     ### explanation: Find and return the shortest path the robot can follow from one point to another
     ###              exit(1) if robot cannot get to the target place
 
-    def BFS(self, room_map, start, target):
+    def BFS(self, my_room_map, start, target):
         try:
             # If start and target are the same place, no need to move
             if (start == target):
@@ -193,6 +192,8 @@ class Robot:
 
         # action 1
         start = self.ROBOT_POS
+        print("start position:", start)
+        print("target:", target)
         path = self.BFS(room_map, start, target)
         print ("Path: ", path)
         print("Start Navigation")
@@ -275,17 +276,18 @@ if __name__ == '__main__':
     robot = Robot()
     # robot.robot_undock()
     # robot.robot_dock()
-    robot.fixed_map_navigate_to(room_map, [1, 1])
+    robot.fixed_map_navigate_to(room_map.copy(), [1, 0])
     # robot.navigate([0,0],[0,1])
     # robot.fixed_map_navigate_to(room_map, [0, 0])
     # robot.robot_finish_moving()
     # robot.end_action()
     robot.start_action()
-    robot.fixed_map_navigate_to(room_map, [2, 2])
+    print(room_map)
+    robot.fixed_map_navigate_to(room_map.copy(), [2, 2])
     robot.start_action()
 
 
-    # step 2: check class method
+    # step 1: renew map everytime finish BFS
 
 
     
