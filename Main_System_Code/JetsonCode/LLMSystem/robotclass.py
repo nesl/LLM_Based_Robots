@@ -4,6 +4,7 @@ from irobot_edu_sdk.robots import event, hand_over, Color, Create3
 from irobot_edu_sdk.music import Note
 from irobot_edu_sdk.utils import stop_program
 import queue
+import copy
 
 #--------------------------------------------  Robot class implementation  --------------------------------------------#
 class Robot:
@@ -106,7 +107,8 @@ class Robot:
     ### explanation: Find and return the shortest path the robot can follow from one point to another
     ###              exit(1) if robot cannot get to the target place
 
-    def BFS(self, room_map, start, target):
+    def BFS(self, my_room_map, start, target):
+        room_map = copy.deepcopy(my_room_map)
         try:
             # If start and target are the same place, no need to move
             if (start == target):
@@ -272,19 +274,15 @@ class Robot:
 
 #-------------------------------------------------- test case --------------------------------------------------#
 if __name__ == '__main__':
-    my_room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
+    room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
     robot = Robot()
-    # robot.robot_undock()
-    # robot.robot_dock()
-    robot.fixed_map_navigate_to(my_room_map.copy(), [1, 0])
-    # robot.navigate([0,0],[0,1])
-    # robot.fixed_map_navigate_to(room_map, [0, 0])
-    # robot.robot_finish_moving()
-    # robot.end_action()
-    robot.start_action()
-    print(my_room_map)
-    robot.fixed_map_navigate_to(my_room_map.copy(), [2, 2])
-    robot.start_action()
+    robot.BFS(room_map,[0,0],[2,2])
+    print(room_map)
+    # robot.fixed_map_navigate_to(my_room_map.copy(), [1, 0])
+    # # robot.start_action()
+    # print(my_room_map)
+    # robot.fixed_map_navigate_to(my_room_map.copy(), [2, 2])
+    # robot.start_action()
 
 
     # step 1: renew map everytime finish BFS
