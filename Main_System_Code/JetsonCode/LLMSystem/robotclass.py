@@ -1,13 +1,16 @@
 #--------------------------------------------  Import libraries  --------------------------------------------#
+import sys
+sys.path.append('/Users/xingyang/Library/Python/3.9/lib/python/site-packages')
+
 from irobot_edu_sdk.backend.bluetooth import Bluetooth
-from irobot_edu_sdk.robots import event, hand_over, Color, Create3
+from irobot_edu_sdk.robots import event, hand_over, Color, Create3, Robot
 from irobot_edu_sdk.music import Note
 from irobot_edu_sdk.utils import stop_program
 import queue
 import copy
 
 #--------------------------------------------  Robot class implementation  --------------------------------------------#
-class Robot:
+class Create3Robot:
     #==================== global variables ====================#
     DIR = [0,1,0,-1,0]
     UNIT_LENGTH = 20
@@ -18,7 +21,7 @@ class Robot:
         # Connecting to iRobotCreate3 (47682A24-F400-A918-B4A0-08822B3A25F4)
         self._robot_name = 'iRobotCreate3'
         self._robot_bluetooth_address = "47682A24-F400-A918-B4A0-08822B3A25F4"
-        self._robot = Create3(Bluetooth(self._robot_name, self._robot_bluetooth_address))
+        self._robot = Robot(Bluetooth(self._robot_name, self._robot_bluetooth_address))
 
     #==================== update position class method ====================#
     @classmethod
@@ -190,7 +193,7 @@ class Robot:
     # action 4: Play sound to show the robot finishes moving
     # action 5: Print "Navigation completed!"
 
-    def helper_fixed_map_navigate_to(self, room_map, target):
+    def navigate_to(self, room_map, target):
 
         # action 1
         start = self.ROBOT_POS
@@ -221,69 +224,36 @@ class Robot:
 
         # action 5
         print("Navigation completed!")
-        
-   #==================== add navigation helper function to the play loop ====================#
-    ### explanation: Robot will only start move when robot.play() function is captured by event robot.when_play (reference: irobot_edu_sdk/robot.py).
-    ###              Define navigate function to wrap navigation helper function.
-    ###              Pass the navigate function to when_play event and call the robot.play().
 
-    def fixed_map_navigate_to(self, room_map, target):
-        async def navigate(arg=None):
-            await self.helper_fixed_map_navigate_to(room_map, target)     
-        self._robot.when_play(navigate)
 
-    def robot_undock(self):
-        async def undock(arg=None):
-             await self._robot.undock()
-        self._robot.when_play(undock)
+    def undock(self):
+        self._robot.undock()
 
-    def robot_dock(self):
-        async def dock(arg=None):
-             await self._robot.dock()
-        self._robot.when_play(dock)
+    def dock(self):
+        self._robot.dock()
 
-    def robot_turn_right(self, angle):
-        async def turn_right(arg=None):
-            await self._robot.turn_right(angle)
-        self._robot.when_play(turn_right)
+    def turn_right(self, angle):
         self._robot.turn_right(angle)
         self.update_robot_orientation((self.ROBOT_HEADING + angle)%360)
 
-    def robot_turn_left(self, angle):
-        async def turn_left(arg=None):
-            await self._robot.turn_left(angle)
-        self._robot.when_play(turn_left)
+    def turn_left(self, angle):
         self._robot.turn_left(angle)
         self.update_robot_orientation((self.ROBOT_HEADING + (360-angle))%360)
-
-
-    # def robot_finish_moving(self):
-    #     async def disconnect(arg=None):
-    #         await self._robot.disconnect()
-    #     self._robot.when_play(disconnect)
-
-
-    def start_action(self):
-        self._robot.play()  # Start the robot's event loop
-
-    def end_action(self):
-        def stop_program(arg=None):
-            stop_program
-        self._robot.when_play(stop_program)
 
 
 #-------------------------------------------------- test case --------------------------------------------------#
 if __name__ == '__main__':
     room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
-    robot = Robot()
-    robot.helper_fixed_map_navigate_to(room_map.copy(), [1, 0])
-    # # robot.start_action()
-    # print(my_room_map)
-    robot.helper_fixed_map_navigate_to(room_map.copy(), [2, 2])
-    # robot.start_action()
+    robot = Create3Robot()
+    # test 1: navigate to
+    # robot.navigate_to(room_map, [1, 0])
+    # robot.navigate_to(room_map, [2, 2])
+
+    # test 2: dock and undock
+    robot.undock()
+    robot.dock()
 
 
-    # step 1: renew map everytime finish BFS
 
 
     
