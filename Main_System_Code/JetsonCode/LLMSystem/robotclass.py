@@ -1,7 +1,6 @@
 #--------------------------------------------  Import libraries  --------------------------------------------#
 import sys
 sys.path.append('/Users/xingyang/Library/Python/3.9/lib/python/site-packages')
-
 from irobot_edu_sdk.backend.bluetooth import Bluetooth
 from irobot_edu_sdk.robots import event, hand_over, Color, Create3, Robot
 from irobot_edu_sdk.music import Note
@@ -9,11 +8,12 @@ from irobot_edu_sdk.utils import stop_program
 import queue
 import copy
 
+
 #--------------------------------------------  Robot class implementation  --------------------------------------------#
 class Create3Robot:
     #==================== global variables ====================#
     DIR = [0,1,0,-1,0]
-    UNIT_LENGTH = 20
+    UNIT_LENGTH = 4
     ROBOT_POS = [0,0]
     ROBOT_HEADING = 0
 
@@ -22,6 +22,7 @@ class Create3Robot:
         self._robot_name = 'iRobotCreate3'
         self._robot_bluetooth_address = "47682A24-F400-A918-B4A0-08822B3A25F4"
         self._robot = Robot(Bluetooth(self._robot_name, self._robot_bluetooth_address))
+        
 
     #==================== update position class method ====================#
     @classmethod
@@ -158,6 +159,8 @@ class Create3Robot:
                 turn_angle = (360+180-heading)%360
             elif y > 0:
                 turn_angle = 360-heading
+            else:
+                turn_angle = 0
             distance = y*self.UNIT_LENGTH
             
         elif pos[0] != exp_pos[0] and pos[1] == exp_pos[1]:
@@ -166,6 +169,8 @@ class Create3Robot:
                 turn_angle=(360+270-heading)%360
             elif x > 0:
                 turn_angle=(360+90-heading)%360
+            else:
+                turn_angle = 0
             distance = x*self.UNIT_LENGTH
         new_heading = (heading + turn_angle) % 360
 
@@ -176,9 +181,9 @@ class Create3Robot:
             turn_angle -= 180
             turn_left = True
         if turn_left:
-            self._robot.turn_left(turn_angle)
+            self.turn_left(turn_angle)
         else:
-            self._robot.turn_right(turn_angle)
+            self.turn_right(turn_angle)
         self.update_robot_orientation(new_heading)
         print("robot heading:", self.ROBOT_HEADING)
         self._robot.move(distance)
@@ -235,25 +240,40 @@ class Create3Robot:
     def turn_right(self, angle):
         self._robot.turn_right(angle)
         self.update_robot_orientation((self.ROBOT_HEADING + angle)%360)
+        
 
     def turn_left(self, angle):
         self._robot.turn_left(angle)
         self.update_robot_orientation((self.ROBOT_HEADING + (360-angle))%360)
+        
 
 
 #-------------------------------------------------- test case --------------------------------------------------#
 if __name__ == '__main__':
     room_map = [['E','B','B','B'],['E','E','E','B'],['B','B','E','B'],['B','E','E','E']]
     robot = Create3Robot()
-    # test 1: navigate to
+    # test 1: navigate to, turn
     # robot.navigate_to(room_map, [1, 0])
     # robot.navigate_to(room_map, [2, 2])
 
     # test 2: dock and undock
-    robot.undock()
-    robot.dock()
+    # robot.undock()
+    # robot.dock()
 
+    # test 3: speed
+    # robot.navigate_to(room_map, [1, 0])
+    # print("good")
+    # time.sleep(5)
+    # robot.navigate_to(room_map, [2, 2])
+    # robot._robot.set_wheel_speeds(100,100)
+    # start_time = time.time()
+    # robot._robot.move(distance = 20)
+    # end_time = time.time()
+    # print("speed 10: ", end_time - start_time)
 
-
+    # start_time = time.time()
+    # robot._robot.move(distance = 20)
+    # end_time = time.time()
+    # print("speed 50: ", end_time - start_time)
 
     
