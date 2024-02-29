@@ -1,6 +1,5 @@
 #--------------------------------------------  Import libraries  --------------------------------------------#
 import sys
-sys.path.append('/Users/xingyang/Library/Python/3.9/lib/python/site-packages')
 from irobot_edu_sdk.backend.bluetooth import Bluetooth
 from irobot_edu_sdk.robots import event, hand_over, Color, Create3, Robot
 from irobot_edu_sdk.music import Note
