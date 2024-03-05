@@ -16,6 +16,8 @@ def process2(file_folder):
             completed_process = subprocess.run(["python3", file_path])
             if completed_process.returncode == 0:
                 file_index += 1
+            else:
+                exit()
 
 # Define the file path for subtasks
 file_folder = "~/Main_System_Code/JetsonCode/subtasks"
