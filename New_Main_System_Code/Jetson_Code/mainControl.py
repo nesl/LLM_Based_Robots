@@ -64,8 +64,10 @@ def File_Processing():
     '''
 
     main_path = os.path.abspath(__file__); main_path = main_path[:main_path.rfind("/")] + "/codeFiles/"  # Path in which code files are received
-    file_process = subprocess.Popen([":"], shell=True) # Shell command : does nothing
+    file_process = subprocess.Popen([":"]) # Shell command : does nothing
+    while(file_process==None): 1+1 # Wait for the first command to finish (instantaneous)
     file_number = 1
+    file_execution_finished = False
 
     while (True):
         
@@ -84,14 +86,21 @@ def File_Processing():
             file_number = 1
         
         # If the current subtask not done executing, continue
-        if(file_process.poll() == None): continue
+        if(file_process.poll() == None): file_execution_finished = True; continue
 
-        # Check to see if the current file number exists. If does, execute and increment file_number
+        # Delete file that finished executing and 
+        if(file_execution_finished):
+            # Delete previous code file (which has by now been executed)
+            os.remove(main_path+"subtask_"+str(file_number))
+            # Increment next file to wait for and then execute
+            file_number = 1 if (file_number >= 255) else file_number + 1
+            file_execution_finished = False # Now waiting for next file
+
+        # Check to see if the current file number exists. If does, execute
         desired_subtask_file = "subtask_"+str(file_number)+".py"
         if(desired_subtask_file in os.listdir(main_path)):
-            file_process = subprocess.Popen(["python3", desired_subtask_file])
-            if file_number >= 255: file_number = 1
-            else: file_number+=1
+            # Start executing next subtask
+            file_process = subprocess.Popen(["python3", main_path+desired_subtask_file])   
 
 
 # -------------- Main Parent Process --------------
