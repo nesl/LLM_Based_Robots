@@ -7,13 +7,14 @@ Possible program improvements:
 - If more efficient, switch from multithreading to multiprocessing.
 
 Current Program Setup:
-Two processes with two processes in each: 
-1) User-Interaction
+Two processes: 
+1) User-Interaction (contains two threads)
     1 - recording: Records user instruction
     2 - speech_Processing: Converts audio to text 
 2) File Processing
-    1 - file_Monitoring_And_Handling: monitors files sent into system
-    2 - file_Execution: Runs files found and fetched by file_monitoring system
+    - Executes files sent in chronological order
+    - Deletes files after usage
+    - Prioritizes exit files to stop subtasks
 
 '''
 
