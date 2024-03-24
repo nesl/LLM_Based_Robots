@@ -3,8 +3,6 @@ import os, glob
 import subprocess
 
 '''
-Possible program improvements:
-- If more efficient, switch from multithreading to multiprocessing.
 
 Current Program Setup:
 Two processes: 
@@ -56,7 +54,7 @@ def User_Environment_Input():
 
     return
 
-# -------------- File-Procesisng Process Functions --------------
+# -------------- File-Processing Process Functions --------------
     
 def File_Processing():
     '''
